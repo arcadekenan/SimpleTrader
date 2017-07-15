@@ -2,18 +2,25 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>SimpleTrader</title>
+    <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.css">
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-route/angular-route.js"></script>
+    <script src="node_modules/angular-sqlite/angular-sqlite.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
+    <script src="node_modules/angular-chart.js/dist/angular-chart.js"></script>
+    <script src="node_modules/materialize-css/dist/js/materialize.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/mainController.js"></script>
+    <script>if (window.module) module = window.module;</script>
   </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+  <body ng-app="index">
+    <ng-view></ng-view>
   </body>
 
   <script>
-    // You can also require other files to run in this process
     require('./renderer.js')
   </script>
 </html>
