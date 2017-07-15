@@ -1,7 +1,25 @@
 <div class="" ng-controller="mainController">
 
+  <div class="div-loading" ng-if="loading">
+    <div class="div-loading-content">
+      <div class="white-text fs2-1rem">
+        LOADING...
+      </div>
+      <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
   <nav>
-    <div class="nav-wrapper">
+    <div class="nav-wrapper nav-main">
       <a href="#" class="brand-logo center">SimpleTrader</a>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
       </ul>
@@ -9,20 +27,30 @@
   </nav>
   <div class="row">
     <div class="col s12 m6">
-      <div class="card blue-grey darken-1">
+      <div class="card card-main-info darken-1">
         <div class="card-content white-text">
-          <span class="card-title">BitCoin</span>
-          <p>{{dataAtualizacaoLTC}}</p>
-          <span class="card-title">{{precoUltimoNegociadoLTC}}</span>
-        </div>
+          <span class="card-title text-cinza margin-zero">LiteCoin</span>
+          <p class="text-cinza text-padrao fs16">{{dataAtualizacaoLTC}}</p>
+          <span class="card-title">{{mediaParaCompra}}
+            <span class="text-padrao fs24" ng-style="corDiferenca">{{diferenca}}</span>
+            <span class="text-padrao fs24" ng-style="corDiferenca">{{porcentagem}}</span>
+          </span>
         <canvas id="line" class="chart chart-line" chart-data="data"
         chart-labels="labels" chart-series="series" chart-options="options"
         chart-dataset-override="datasetOverride" chart-click="onClick"
         chart-colors="colors">
         </canvas>
-        <div class="card-action">
-          <a href="#" ng-click="consulta()">This is a link</a>
-          <a href="#" ng-click="graficoLTC()">This is a link</a>
+        <div class="row">
+          <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
+          <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoLTC}}</p></div>
+          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
+          <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoLTC}}</p></div>
+        </div>
+        <div class="row">
+          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
+          <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaLTC}}</p></div>
+          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
+          <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoLTC}}</p></div>
         </div>
       </div>
     </div>
