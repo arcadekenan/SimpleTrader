@@ -17,7 +17,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
                                       date.getDate()+", "+
                                       date.getHours()+":"+
                                       date.getMinutes();
-          novoDado["date"] = date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
+          novoDado["date"] = date.getHours()+":"+date.getMinutes();
           $scope.maiorNegociacaoLTC = response.data.ticker.high;
           novoDado["high"] = $scope.maiorNegociacaoLTC;
           $scope.maiorNegociacaoLTC = $filter('limitTo')(($scope.maiorNegociacaoLTC), 8)
@@ -35,10 +35,11 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           $scope.menorValorVendaLTC = response.data.ticker.sell;
           novoDado["sell"] = $scope.menorValorVendaLTC;
           $scope.mediaParaCompra = ($scope.maiorValorCompraLTC + $scope.menorValorVendaLTC)/2;
-          $scope.compara($scope.mediaParaCompra);
-          $scope.mediaParaCompra = $filter('limitTo')(($scope.mediaParaCompra), 8)
-          $scope.insere(novoDado);
-          $scope.graficoLTC();
+          if($scope.compara($scope.mediaParaCompra) == true){
+            $scope.mediaParaCompra = $filter('limitTo')(($scope.mediaParaCompra), 8)
+            $scope.insere(novoDado)
+          }
+
         }, function errorCallback(response) {
           // called asynchronously if an error occurs
           // or server returns response with an error status.
@@ -78,6 +79,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
             }
           );
         });
+        return true;
       }
 
 
@@ -89,7 +91,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
         $scope.labels1 = []; $scope.compra = []; $scope.venda = []; $scope.media = [];
         $SQLite.ready(function () {
             this
-                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOS WHERE ID > (SELECT count() from DADOS)-6')
+                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOS WHERE ID > (SELECT count() from DADOS)-15')
                 .then(
             function () { console.log('Empty Result!'); },
             function () { console.err('Error!'); },
@@ -105,7 +107,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
         $scope.labels2 = []; $scope.compraBTC = []; $scope.vendaBTC = []; $scope.mediaBTC = [];
         $SQLite.ready(function () {
             this
-                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOSBTC WHERE ID > (SELECT count() from DADOSBTC)-6')
+                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOSBTC WHERE ID > (SELECT count() from DADOSBTC)-15')
                 .then(
             function () { console.log('Empty Result!'); },
             function () { console.err('Error!'); },
@@ -159,7 +161,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
                                       date.getDate()+", "+
                                       date.getHours()+":"+
                                       date.getMinutes();
-          novoDado["date"] = date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
+          novoDado["date"] = date.getHours()+":"+date.getMinutes();
           $scope.maiorNegociacaoBTC = response.data.ticker.high;
           novoDado["high"] = $scope.maiorNegociacaoBTC;
           $scope.maiorNegociacaoBTC = $filter('limitTo')(($scope.maiorNegociacaoBTC), 8)
@@ -177,10 +179,12 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           $scope.menorValorVendaBTC = response.data.ticker.sell;
           novoDado["sell"] = $scope.menorValorVendaBTC;
           $scope.mediaParaCompraBTC = ($scope.maiorValorCompraBTC + $scope.menorValorVendaBTC)/2;
-          $scope.comparaBTC($scope.mediaParaCompraBTC);
-          $scope.mediaParaCompraBTC = $filter('limitTo')(($scope.mediaParaCompraBTC), 8)
-          $scope.insereBTC(novoDado);
-          $scope.graficoLTC();
+          if($scope.comparaBTC($scope.mediaParaCompraBTC) == true){
+            $scope.mediaParaCompraBTC = $filter('limitTo')(($scope.mediaParaCompraBTC), 8)
+            if($scope.insereBTC(novoDado) == true){
+              $scope.graficoLTC();
+            }
+          }
         }, function errorCallback(response) {
           // called asynchronously if an error occurs
           // or server returns response with an error status.
@@ -193,6 +197,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
                    function () { console.err('Error!');}
              );
       });
+      return true;
     }
 
     $scope.comparaBTC = function(atual) {
@@ -222,6 +227,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           }
         );
       });
+      return true;
     }
 
       $timeout(tick, $scope.tickExecucao); // reset the timer
