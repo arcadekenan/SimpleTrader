@@ -1,9 +1,15 @@
 app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $filter) {
   var nomeMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-
+  var pjson = require('./package.json');
+  $scope.versaoST = pjson.version;
   $scope.tickInicial = 3000;
   $scope.tickExecucao = 61000;
   $scope.loading = true;
+
+  $(document).ready(function(){
+    $('.modal').modal();
+  });
+
   var tick = function() {
       $scope.loading = false;
       $http({
@@ -36,7 +42,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           novoDado["sell"] = $scope.menorValorVendaLTC;
           $scope.mediaParaCompra = ($scope.maiorValorCompraLTC + $scope.menorValorVendaLTC)/2;
           if($scope.compara($scope.mediaParaCompra) == true){
-            $scope.mediaParaCompra = $filter('limitTo')(($scope.mediaParaCompra), 8)
+            $scope.mediaParaCompra = "R$ "+$filter('limitTo')(($scope.mediaParaCompra), 8)
             $scope.insere(novoDado)
           }
 
@@ -197,7 +203,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           novoDado["sell"] = $scope.menorValorVendaBTC;
           $scope.mediaParaCompraBTC = ($scope.maiorValorCompraBTC + $scope.menorValorVendaBTC)/2;
           if($scope.comparaBTC($scope.mediaParaCompraBTC) == true){
-            $scope.mediaParaCompraBTC = $filter('limitTo')(($scope.mediaParaCompraBTC), 8)
+            $scope.mediaParaCompraBTC = "R$ "+$filter('limitTo')(($scope.mediaParaCompraBTC), 8)
             if($scope.insereBTC(novoDado) == true){
               $scope.graficoLTC();
             }

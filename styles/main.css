@@ -6,6 +6,10 @@
   background-color: #1F212C;
 }
 
+.card-main-info-imp{
+  background-color: #1F212C !important;
+}
+
 .nav-main{
   background-color: #1F212C;
 }
@@ -15,7 +19,7 @@
   width: 100%;
   height:100vh;
   position: absolute;
-  background-color: rgba(140, 140, 140, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
 }
 
@@ -32,16 +36,24 @@
 }
 
 .fs16{
-  font-size: 16px
+  font-size: 16px;
 }.fs18{
-  font-size: 18px
+  font-size: 18px;
 }.fs20{
-  font-size: 20px
+  font-size: 20px;
+}.fs21{
+  font-size: 21px;
+}.fs22{
+  font-size: 22px;
+}.fs23{
+  font-size: 23px;
 }.fs24{
-  font-size: 24px
+  font-size: 24px;
+}.fs34{
+  font-size: 34px;
 }.fs2-1rem{
   font-weight: normal;
-  font-size: 2.1rem
+  font-size: 2.1rem;
 }
 
 .margin-zero{
@@ -75,4 +87,28 @@
 
 .carregado-shadow{
   text-shadow: 4px 4px #000000;
+}
+
+.info-fButton {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    float: right;
+    margin-right: 4%;
+}
+
+.info-large {
+    font-size: 2.3rem !important;
+}
+
+.modal-info{
+  width: 60% !important;
+  height: 50% !important;
+}
+
+.card-com-margem{
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.text-branco{
+  color: #ffffff !important;
 }
