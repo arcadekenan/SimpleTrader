@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . SimpleTrader --platform=darwin --arch=x64 && cp imgs/SimpleTraderIcon.icns SimpleTrader-darwin-x64/SimpleTrader.app/Contents/Resources/electron.icns"
+    "build": "electron-packager . SimpleTrader --platform=darwin --arch=x64 && cp imgs/SimpleTraderIcon3.icns SimpleTrader-darwin-x64/SimpleTrader.app/Contents/Resources/electron.icns"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
