@@ -80,23 +80,41 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
         });
       }
 
+
+
       $scope.graficoLTC = function() {
         Chart.defaults.global.defaultFontColor = 'white';
         Chart.defaults.global.elements.line.borderWidth = 5;
         Chart.defaults.global.colors = ['rgba(0,201,126,0.2)','rgba(255,0,0,0.2)','rgba(0,153,255,0.2)'];
-        $scope.labels = []; $scope.compra = []; $scope.venda = []; $scope.media = [];
+        $scope.labels1 = []; $scope.compra = []; $scope.venda = []; $scope.media = [];
         $SQLite.ready(function () {
             this
-                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOS WHERE ID > (SELECT count() from DADOS)-10')
+                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOS WHERE ID > (SELECT count() from DADOS)-6')
                 .then(
             function () { console.log('Empty Result!'); },
             function () { console.err('Error!'); },
             function (data) {
-              $scope.labels.push(data.item.date);
+              $scope.labels1.push(data.item.date);
               $scope.compra.push(data.item.buy);
               $scope.venda.push(data.item.sell);
               $scope.media.push(data.item.media);
-              $scope.data = [$scope.compra, $scope.venda, $scope.media];
+              $scope.data1 = [$scope.compra, $scope.venda, $scope.media];
+            }
+          );
+        });
+        $scope.labels2 = []; $scope.compraBTC = []; $scope.vendaBTC = []; $scope.mediaBTC = [];
+        $SQLite.ready(function () {
+            this
+                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOSBTC WHERE ID > (SELECT count() from DADOSBTC)-6')
+                .then(
+            function () { console.log('Empty Result!'); },
+            function () { console.err('Error!'); },
+            function (data) {
+              $scope.labels2.push(data.item.date);
+              $scope.compraBTC.push(data.item.buy);
+              $scope.vendaBTC.push(data.item.sell);
+              $scope.mediaBTC.push(data.item.media);
+              $scope.data2 = [$scope.compraBTC, $scope.vendaBTC, $scope.mediaBTC];
             }
           );
         });
@@ -129,6 +147,83 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           );
         });
       }
+
+      $http({
+        method: 'GET',
+        url: 'https://www.mercadobitcoin.net/api/ticker/'
+      }).then(function successCallback(response) {
+          var novoDado = {};
+          var date = new Date(response.data.ticker.date*1000);
+          $scope.dataAtualizacaoBTC = "Atualizado em: "+
+                                      nomeMeses[date.getMonth()]+" "+
+                                      date.getDate()+", "+
+                                      date.getHours()+":"+
+                                      date.getMinutes();
+          novoDado["date"] = date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
+          $scope.maiorNegociacaoBTC = response.data.ticker.high;
+          novoDado["high"] = $scope.maiorNegociacaoBTC;
+          $scope.maiorNegociacaoBTC = $filter('limitTo')(($scope.maiorNegociacaoBTC), 8)
+          $scope.menorNegociacaoBTC = response.data.ticker.low;
+          novoDado["low"] = $scope.menorNegociacaoBTC;
+          $scope.menorNegociacaoBTC = $filter('limitTo')(($scope.menorNegociacaoBTC), 8)
+          $scope.volumeMoedaBTC = response.data.ticker.vol;
+          novoDado["vol"] = $scope.volumeMoedaBTC;
+          $scope.volumeMoedaBTC = $filter('limitTo')(($scope.volumeMoedaBTC), 8)
+          $scope.precoUltimoNegociadoBTC = response.data.ticker.last;
+          novoDado["last"] = $scope.precoUltimoNegociadoBTC;
+          $scope.precoUltimoNegociadoBTC = $filter('limitTo')(($scope.precoUltimoNegociadoBTC), 8)
+          $scope.maiorValorCompraBTC = response.data.ticker.buy;
+          novoDado["buy"] = $scope.maiorValorCompraBTC;
+          $scope.menorValorVendaBTC = response.data.ticker.sell;
+          novoDado["sell"] = $scope.menorValorVendaBTC;
+          $scope.mediaParaCompraBTC = ($scope.maiorValorCompraBTC + $scope.menorValorVendaBTC)/2;
+          $scope.comparaBTC($scope.mediaParaCompraBTC);
+          $scope.mediaParaCompraBTC = $filter('limitTo')(($scope.mediaParaCompraBTC), 8)
+          $scope.insereBTC(novoDado);
+          $scope.graficoLTC();
+        }, function errorCallback(response) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+        });
+
+    $scope.insereBTC = function(novoDado){
+      $SQLite.ready(function () {
+         this.insert('DADOSBTC', novoDado)
+             .then(function () { console.log('Inserido Com Sucesso');},
+                   function () { console.err('Error!');}
+             );
+      });
+    }
+
+    $scope.comparaBTC = function(atual) {
+      $SQLite.ready(function () {
+          this
+              .select('SELECT (BUY+SELL)/2 AS media FROM DADOSBTC ORDER BY id DESC LIMIT 1')
+              .then(
+          function () { console.log('Empty Result!'); },
+          function () { console.err('Error!'); },
+          function (data) {
+            if(data != null){
+              var differenca = atual - data.item.media;
+              if (Math.sign(differenca) == -1) {
+                $scope.corDiferencaBTC = {'color':'#ff0000'};
+                var limitePorcentagem = 5;
+              }else if (Math.sign(differenca) == 1) {
+                $scope.corDiferencaBTC = {'color':'#00C97E'};
+                differenca = "+"+differenca;
+                var limitePorcentagem = 4;
+              }else if (Math.sign(differenca) == 0) {
+                $scope.corDiferencaBTC = {'color':'#87B4CE'};
+              }
+              $scope.diferencaBTC = $filter('limitTo')((differenca), 8);
+              var porcentagem = (differenca/data.item.media)*100
+              $scope.porcentagemBTC = "("+$filter('limitTo')((porcentagem), limitePorcentagem)+"%)";
+            }
+          }
+        );
+      });
+    }
+
       $timeout(tick, $scope.tickExecucao); // reset the timer
   }
 

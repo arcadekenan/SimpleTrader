@@ -10,6 +10,16 @@ var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js"]);
           last: { type: 'real', null: false },
           buy: { type: 'real', null: false },
           sell: { type: 'real', null: false },
+      },
+      dadosbtc: {
+          id: 'key',
+          date: { type: 'text', null: false },
+          high: { type: 'real', null: false },
+          low: { type: 'real', null: false },
+          vol: { type: 'real', null: false },
+          last: { type: 'real', null: false },
+          buy: { type: 'real', null: false },
+          sell: { type: 'real', null: false },
       }
   })
 

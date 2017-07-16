@@ -35,8 +35,8 @@
             <span class="text-padrao fs24" ng-style="corDiferenca">{{diferenca}}</span>
             <span class="text-padrao fs24" ng-style="corDiferenca">{{porcentagem}}</span>
           </span>
-        <canvas id="line" class="chart chart-line" chart-data="data"
-        chart-labels="labels" chart-series="series" chart-options="options"
+        <canvas id="line" class="chart chart-line" chart-data="data1"
+        chart-labels="labels1" chart-series="series" chart-options="options"
         chart-dataset-override="datasetOverride" chart-click="onClick"
         chart-colors="colors">
         </canvas>
@@ -54,6 +54,35 @@
         </div>
       </div>
     </div>
+    </div>
+    <div class="col s12 m6">
+      <div class="card card-main-info darken-1">
+        <div class="card-content white-text">
+          <span class="card-title text-cinza margin-zero">BitCoin</span>
+          <p class="text-cinza text-padrao fs16">{{dataAtualizacaoBTC}}</p>
+          <span class="card-title">{{mediaParaCompraBTC}}
+            <span class="text-padrao fs24" ng-style="corDiferencaBTC">{{diferencaBTC}}</span>
+            <span class="text-padrao fs24" ng-style="corDiferencaBTC">{{porcentagemBTC}}</span>
+          </span>
+        <canvas id="line2" class="chart chart-line" chart-data="data2"
+        chart-labels="labels2" chart-series="series" chart-options="options"
+        chart-dataset-override="datasetOverride" chart-click="onClick"
+        chart-colors="colors">
+        </canvas>
+        <div class="row">
+          <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
+          <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoBTC}}</p></div>
+          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
+          <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoBTC}}</p></div>
+        </div>
+        <div class="row">
+          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
+          <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaBTC}}</p></div>
+          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
+          <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoBTC}}</p></div>
+        </div>
+      </div>
+    </div>
+    </div>
   </div>
-
 </div>
