@@ -1,6 +1,6 @@
 {
   "name": "SimpleTrader",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Uma Simples Aplicação Para Acompanhar Moedas Digitais",
   "main": "main.js",
   "scripts": {
