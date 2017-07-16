@@ -4,7 +4,8 @@
   "description": "Uma Simples Aplicação Para Acompanhar Moedas Digitais",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-packager . SimpleTrader --platform=darwin --arch=x64 && cp SimpleTraderIcon.icns SimpleTrader-darwin-x64/SimpleTrader.app/Contents/Resources/electron.icns"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -15,9 +16,10 @@
     "demo"
   ],
   "author": "Davi Bispo",
-  "license": "",
+  "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "~1.6.2"
+    "electron": "~1.6.2",
+    "electron-packager": "^8.7.2"
   },
   "dependencies": {
     "angular": "^1.6.4",
