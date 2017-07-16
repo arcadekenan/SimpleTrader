@@ -20,7 +20,7 @@
 }
 
 .div-loading-content{
-  margin-top: 25%;
+  margin-top: 20%;
 }
 
 .text-cinza{
@@ -46,4 +46,33 @@
 
 .margin-zero{
   margin: 0 !important;
+}
+
+.preloader-wrapper.bigSimple {
+    width: 192px;
+    height: 192px;
+}
+
+.spinner-white, .spinner-white-only {
+    border-color: #ffffff;
+}
+
+.div-logo{
+  z-index: 6;
+  width: 100%;
+  height:100vh;
+  margin-top: 0.4%;
+  text-align: center;
+  position: absolute;
+}
+
+.logo-simpletrader-loading {
+  background-image: url("../imgs/SimpleTraderLogoSemBorda.png");
+  background-size: 188px 188px;
+  width: 188px;
+  height: 188px;
+}
+
+.carregado-shadow{
+  text-shadow: 4px 4px #000000;
 }

@@ -59,7 +59,24 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
             this
                 .select('SELECT (BUY+SELL)/2 AS media FROM DADOS ORDER BY id DESC LIMIT 1')
                 .then(
-            function () { console.log('Empty Result!'); },
+            function () {
+              novoInit["date"] = "0:0"; novoInit["high"] = 0;
+              novoInit["low"] = 0; novoInit["vol"] = 0;
+              novoInit["last"] = 0; novoInit["buy"] = 0;
+              novoInit["sell"] = 0;
+              $SQLite.ready(function () {
+                 this.insert('DADOSBTC', novoInit)
+                     .then(function () {
+                       var differenca = 0;
+                       $scope.corDiferenca = {'color':'#87B4CE'};
+                       $scope.diferenca = differenca;
+                       var porcentagem = 0.00;
+                       $scope.porcentagem = "("+porcentagem+"%)";
+                     },
+                           function () { console.err('Error!');}
+                     );
+              });
+            },
             function () { console.err('Error!'); },
             function (data) {
               var differenca = atual - data.item.media;
@@ -205,7 +222,24 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           this
               .select('SELECT (BUY+SELL)/2 AS media FROM DADOSBTC ORDER BY id DESC LIMIT 1')
               .then(
-          function () { console.log('Empty Result!'); },
+          function () {
+            novoInit["date"] = "0:0"; novoInit["high"] = 0;
+            novoInit["low"] = 0; novoInit["vol"] = 0;
+            novoInit["last"] = 0; novoInit["buy"] = 0;
+            novoInit["sell"] = 0;
+            $SQLite.ready(function () {
+               this.insert('DADOSBTC', novoInit)
+                   .then(function () {
+                     var differenca = 0;
+                     $scope.corDiferencaBTC = {'color':'#87B4CE'};
+                     $scope.diferencaBTC = differenca;
+                     var porcentagem = 0.00;
+                     $scope.porcentagemBTC = "("+porcentagem+"%)";
+                   },
+                         function () { console.err('Error!');}
+                   );
+            });
+          },
           function () { console.err('Error!'); },
           function (data) {
             if(data != null){
