@@ -1,4 +1,4 @@
-var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js"]);
+var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js", "angular-hmac-sha512"]);
 
   app.constant('DB_CONFIG', {
       dados: {
@@ -20,6 +20,12 @@ var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js"]);
           last: { type: 'real', null: false },
           buy: { type: 'real', null: false },
           sell: { type: 'real', null: false },
+      },
+      usrcarteira: {
+          id: 'key',
+          tapi_id: { type: 'text', null: false },
+          secret: { type: 'text', null: false },
+          status: { type: 'real', null: false },
       }
   })
 
@@ -41,11 +47,17 @@ var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js"]);
       });
   });
 
+//  app.config(function($crypthmacProvider){});
+
   app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
       templateUrl : "templates/main.html",
       controllerUrl : "mainController"
+    })
+    .when("/negocios", {
+      templateUrl : "templates/negocios.html",
+      controllerUrl : "negociosController"
     })
 //    .otherwise({
 //      templateUrl : "app/template/main.htm"

@@ -1,5 +1,4 @@
 <div class="" ng-controller="mainController">
-
   <div class="div-loading" ng-if="loading">
     <div class="div-loading-content">
       <div class="div-logo">
@@ -21,10 +20,11 @@
       </div>
     </div>
   </div>
+
   <nav>
     <div class="nav-wrapper nav-main">
       <a href="#" class="brand-logo center">SimpleTrader</a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down">
+      <ul id="nav-mobile" class="left">
       </ul>
     </div>
   </nav>
@@ -43,17 +43,29 @@
         chart-dataset-override="datasetOverride" chart-click="onClick"
         chart-colors="colors">
         </canvas>
-        <div class="row">
-          <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
-          <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoLTC}}</p></div>
-          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
-          <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoLTC}}</p></div>
+        <div class="dados-subGraf">
+          <div class="row">
+            <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
+            <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoLTC}}</p></div>
+            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
+            <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoLTC}}</p></div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
+            <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaLTC}}</p></div>
+            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
+            <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoLTC}}</p></div>
+          </div>
         </div>
-        <div class="row">
-          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
-          <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaLTC}}</p></div>
-          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
-          <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoLTC}}</p></div>
+        <div ng-if="useronLTC">
+          <div class="row">
+            <div class="col s3 text-cinza text-padrao"><p>Saldo</p></div>
+            <div class="col s6 text-padrao"><p>{{mostraQtdLTCUser}}</p></div>
+          </div>
+          <div class="row">
+            <div class="col s4 text-cinza text-padrao"><p>Estado Atual</p></div>
+            <div class="col s6 text-padrao fs18"><p>{{estadoReaisLTC}}</p></div>
+          </div>
         </div>
       </div>
     </div>
@@ -72,24 +84,49 @@
         chart-dataset-override="datasetOverride" chart-click="onClick"
         chart-colors="colors">
         </canvas>
-        <div class="row">
-          <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
-          <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoBTC}}</p></div>
-          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
-          <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoBTC}}</p></div>
+        <div class="dados-subGraf">
+          <div class="row">
+            <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
+            <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoBTC}}</p></div>
+            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
+            <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoBTC}}</p></div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
+            <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaBTC}}</p></div>
+            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
+            <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoBTC}}</p></div>
+          </div>
         </div>
-        <div class="row">
-          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
-          <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaBTC}}</p></div>
-          <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
-          <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoBTC}}</p></div>
+        <div ng-if="useronBTC">
+          <div class="row">
+            <div class="col s3 text-cinza text-padrao"><p>Saldo</p></div>
+            <div class="col s6 text-padrao"><p>{{mostraQtdBTCUser}}</p></div>
+          </div>
+          <div class="row">
+            <div class="col s4 text-cinza text-padrao"><p>Estado Atual</p></div>
+            <div class="col s6 text-padrao fs18"><p>{{estadoReaisBTC}}</p></div>
+          </div>
         </div>
       </div>
     </div>
     </div>
   </div>
 
-  <a data-target="modal1" class="btn-floating btn-large waves-effect waves-light info-fButton"><i class="material-icons info-large">info</i></a>
+  <div class="fixed-action-btn horizontal">
+  </div>
+
+  <div class="fixed-action-btn horizontal click-to-toggle">
+    <a class="btn-floating btn-large info-fButton">
+      <i class="material-icons icon-large">menu</i>
+    </a>
+    <ul>
+      <li><a data-target="modal1" class="btn-floating waves-effect waves-light button-color-gray"><i class="material-icons">info</i></a></li>
+      <li><a class="btn-floating waves-effect waves-light button-color-blue"><i class="material-icons">more_horiz</i></a></li>
+      <li><a data-target="modal2" class="btn-floating waves-effect waves-light button-color-green"><i class="material-icons">account_circle</i></a></li>
+    </ul>
+  </div>
+
   <!-- Modal Structure -->
   <div id="modal1" class="modal modal-fixed-footer modal-info html-index">
       <div class="card horizontal card-com-margem card-main-info">
@@ -117,6 +154,28 @@
       </div>
     <div class="modal-footer card-main-info-imp">
       <a class="modal-action text-branco modal-close waves-effect waves-green btn-flat">Ok</a>
+    </div>
+  </div>
+  <div id="modal2" class="modal modal-fixed-footer modal-info html-index">
+    <div class="row" ng-controller="negociosController">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="user" type="text" class="validate text-branco fs16" ng-model="tapiID">
+            <label for="user">TAPI-ID</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate text-branco fs16" ng-model="secret">
+            <label for="password">SECRET</label>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn waves-effect waves-light" ng-click="login()" name="action">SIGN-IN</button>
+          <button class="btn waves-effect waves-light" ng-click="logoff()" name="action">OUT</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

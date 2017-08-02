@@ -1,17 +1,68 @@
-app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $filter) {
+app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http, $SQLite, $timeout, $filter) {
+
   var nomeMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
   var pjson = require('./package.json');
   $scope.versaoST = pjson.version;
   $scope.tickInicial = 3000;
   $scope.tickExecucao = 61000;
   $scope.loading = true;
+  $scope.useronLTC = false;
+  $scope.useronBTC = false;
+
+  $SQLite.ready(function () {
+      this
+          .select('SELECT TAPI_ID, SECRET FROM USRCARTEIRA WHERE STATUS = 0')
+          .then(
+      function () { console.log('Sem Usuário Registrado'); },
+      function () { console.err('Error!'); },
+      function (data) {
+        $scope.tapiID = data.item.tapi_id;
+        $scope.secret = data.item.secret;
+        console.log($scope.tapiID);
+        $scope.usrInfo();
+        console.log(data);
+      }
+    );
+  });
+
+  $scope.usrInfo = function () {
+    var dateTime = new Date();
+    var tapi_nonce = dateTime.getTime();
+    var url = "/tapi/v3/?tapi_method=get_account_info&tapi_nonce="+tapi_nonce;
+    console.log($scope.tapiID);
+    var encrypttext = $crypthmac.encrypt(url, $scope.secret);
+    console.log(encrypttext);
+
+    $http({
+      method: 'POST',
+      url: 'https://www.mercadobitcoin.net/tapi/v3/',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'TAPI-ID' : $scope.tapiID, 'TAPI-MAC' : encrypttext},
+      transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+      },
+      data:{"tapi_method" : "get_account_info", "tapi_nonce" : tapi_nonce,}
+    }).then(function successCallback(response) {
+      $scope.qtdLTCUser = response.data.response_data.balance.ltc.available;
+      $scope.mostraQtdLTCUser = "LTC "+$scope.qtdLTCUser;
+      $scope.qtdBTCUser = response.data.response_data.balance.btc.available;
+      $scope.mostraQtdBTCUser = "BTC "+$scope.qtdBTCUser;
+      $scope.useronLTC = true;
+      $scope.useronBTC = true;
+    })
+  }
 
   $(document).ready(function(){
     $('.modal').modal();
   });
 
+  $(".button-collapse").sideNav();
+
   var tick = function() {
       $scope.loading = false;
+
       $http({
         method: 'GET',
         url: 'https://www.mercadobitcoin.net/api/ticker_litecoin/'
@@ -41,9 +92,14 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           $scope.menorValorVendaLTC = response.data.ticker.sell;
           novoDado["sell"] = $scope.menorValorVendaLTC;
           $scope.mediaParaCompra = ($scope.maiorValorCompraLTC + $scope.menorValorVendaLTC)/2;
+          if (typeof $scope.qtdLTCUser != 'undefined') {
+            var valorReais = $scope.mediaParaCompra * $scope.qtdLTCUser;
+            $scope.estadoReaisLTC = "R$ "+$filter('limitTo')((valorReais), 8);
+          }
           if($scope.compara($scope.mediaParaCompra) == true){
             $scope.mediaParaCompra = "R$ "+$filter('limitTo')(($scope.mediaParaCompra), 8)
             $scope.insere(novoDado)
+            $scope.revisaDBLTC()
           }
 
         }, function errorCallback(response) {
@@ -58,6 +114,46 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
                      function () { console.err('Error!');}
                );
         });
+      }
+
+      $scope.revisaDBLTC = function() {
+        $SQLite.ready(function () {
+            this
+                .select('SELECT MAX(id) AS max FROM DADOS')
+                .then(
+            function () { console.err('Empty Result')},
+            function () { console.err('Error!'); },
+            function (data) {
+              if (data.item.max > 30) {
+                $SQLite.ready(function () {
+                this.execute('DELETE FROM DADOS WHERE ROWID = 1')
+                  .then(function () { console.log('Deletado Com Sucesso'); },
+                        function () { console.err('Error!'); }
+                  );
+                });
+              }
+            });
+          })
+      }
+
+      $scope.revisaDBBTC = function() {
+        $SQLite.ready(function () {
+            this
+                .select('SELECT MAX(id) AS max FROM DADOSBTC')
+                .then(
+            function () { console.err('Empty Result')},
+            function () { console.err('Error!'); },
+            function (data) {
+              if (data.item.max > 30) {
+                $SQLite.ready(function () {
+                this.execute('DELETE FROM DADOSBTC WHERE ROWID = 1')
+                  .then(function () { console.log('Deletado Com Sucesso'); },
+                        function () { console.err('Error!'); }
+                  );
+                });
+              }
+            });
+          })
       }
 
       $scope.compara = function(atual) {
@@ -107,18 +203,19 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
 
 
 
-      $scope.graficoLTC = function() {
+      $scope.grafico = function() {
         Chart.defaults.global.defaultFontColor = 'white';
         Chart.defaults.global.elements.line.borderWidth = 5;
         Chart.defaults.global.colors = ['rgba(0,201,126,0.2)','rgba(255,0,0,0.2)','rgba(0,153,255,0.2)'];
         $scope.labels1 = []; $scope.compra = []; $scope.venda = []; $scope.media = [];
         $SQLite.ready(function () {
             this
-                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOS WHERE ID > (SELECT count() from DADOS)-15')
+                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOS WHERE ID > (SELECT MAX(id) FROM DADOS)-15')
                 .then(
             function () { console.log('Empty Result!'); },
             function () { console.err('Error!'); },
             function (data) {
+              console.log('foi!!!');
               $scope.labels1.push(data.item.date);
               $scope.compra.push(data.item.buy);
               $scope.venda.push(data.item.sell);
@@ -130,7 +227,7 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
         $scope.labels2 = []; $scope.compraBTC = []; $scope.vendaBTC = []; $scope.mediaBTC = [];
         $SQLite.ready(function () {
             this
-                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOSBTC WHERE ID > (SELECT count() from DADOSBTC)-15')
+                .select('SELECT ID, DATE, BUY, SELL, (BUY+SELL)/2 AS media FROM DADOSBTC WHERE ID > (SELECT MAX(id) FROM DADOSBTC)-15')
                 .then(
             function () { console.log('Empty Result!'); },
             function () { console.err('Error!'); },
@@ -202,10 +299,15 @@ app.controller("mainController", function ($scope, $http, $SQLite, $timeout, $fi
           $scope.menorValorVendaBTC = response.data.ticker.sell;
           novoDado["sell"] = $scope.menorValorVendaBTC;
           $scope.mediaParaCompraBTC = ($scope.maiorValorCompraBTC + $scope.menorValorVendaBTC)/2;
+          if (typeof $scope.qtdBTCUser != 'undefined') {
+            var valorReais = $scope.mediaParaCompraBTC * $scope.qtdBTCUser;
+            $scope.estadoReaisBTC = "R$ "+$filter('limitTo')((valorReais), 8);
+          }
           if($scope.comparaBTC($scope.mediaParaCompraBTC) == true){
             $scope.mediaParaCompraBTC = "R$ "+$filter('limitTo')(($scope.mediaParaCompraBTC), 8)
             if($scope.insereBTC(novoDado) == true){
-              $scope.graficoLTC();
+              $scope.grafico();
+              $scope.revisaDBBTC();
             }
           }
         }, function errorCallback(response) {
