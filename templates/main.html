@@ -116,7 +116,7 @@
   <div class="fixed-action-btn horizontal">
   </div>
 
-  <div class="fixed-action-btn horizontal click-to-toggle">
+  <div class="fixed-action-btn horizontal">
     <a class="btn-floating btn-large info-fButton">
       <i class="material-icons icon-large">menu</i>
     </a>
@@ -156,26 +156,111 @@
       <a class="modal-action text-branco modal-close waves-effect waves-green btn-flat">Ok</a>
     </div>
   </div>
-  <div id="modal2" class="modal modal-fixed-footer modal-info html-index">
-    <div class="row" ng-controller="negociosController">
-      <form class="col s12">
+  <div id="modal2" class="modal modal-fixed-footer modal-logado html-index">
+    <div class="row">
+      <form class="col s12" ng-if="!logado">
         <div class="row">
           <div class="input-field col s12">
-            <input id="user" type="text" class="validate text-branco fs16" ng-model="tapiID">
+            <input id="user" type="text" class="validate text-branco fs16" ng-model="tapiIDInp">
             <label for="user">TAPI-ID</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="password" type="password" class="validate text-branco fs16" ng-model="secret">
+            <input id="password" type="password" class="validate text-branco fs16" ng-model="secretInp">
             <label for="password">SECRET</label>
           </div>
         </div>
         <div class="row">
-          <button class="btn waves-effect waves-light" ng-click="login()" name="action">SIGN-IN</button>
-          <button class="btn waves-effect waves-light" ng-click="logoff()" name="action">OUT</button>
+          <div class="row">
+            <div class="col s12 m4 l2"></div>
+            <div class="col s12 m4 l8">
+              <button class="btn waves-effect waves-light" ng-click="login()" name="action">SIGN-IN</button>
+            </div>
+            <div class="col s12 m4 l2"></div>
+          </div>
         </div>
       </form>
+      <div class="row" ng-if="logado">
+        <div class="col s3">
+          <div class="card card-main-info darken-1">
+            <div class="card-content white-text">
+              <span class="card-title text-cinza margin-zero">Opções</span>
+            </div>
+            <div class="card-content white-text card-padding-10">
+              <div class="row row-margin-bottom-10">
+                <button class="btn btn-logado waves-light" ng-click="transition1()">Info</button>
+              </div>
+              <div class="row row-margin-bottom-10">
+                <button class="btn btn-logado waves-light" ng-click="transition2()">Ordens</button>
+              </div>
+              <div class="row row-margin-bottom-10">
+                <button class="btn btn-logado waves-light" ng-click="logoff()" name="action">Log Out</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col s9">
+          <div class="card card-main-info darken-1">
+            <div id="infoConta" ng-if="tab1">
+              <div class="card-content white-text">
+                <span class="card-title text-cinza margin-zero">Informações da Conta</span>
+                <p class="text-cinza text-padrao fs16">{{dataAtualizacaoUserInfo}}</p>
+              </div>
+              <div class="card-content white-text">
+                <div class="row">
+                  <div class="col s12 m3 l3 text-cinza text-padrao"><p>Saldo em R$</p></div>
+                  <div class="col s12 m3 l3 text-padrao"><p>{{qtdRSUser}}</p></div>
+                  <div class="col s12 m3 l3 text-cinza text-padrao"><p>Retirada em R$</p></div>
+                  <div class="col s12 m3 l3 text-padrao"><p>{{retRSUser}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col s12 m3 l3 text-cinza text-padrao"><p>Saldo em LTC</p></div>
+                  <div class="col s12 m3 l3 text-padrao"><p>{{qtdLTCUser}}</p></div>
+                  <div class="col s13 m3 l3 text-cinza text-padrao"><p>Retirada em LTC</p></div>
+                  <div class="col s12 m3 l3 text-padrao"><p>{{retLTCUser}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col s12 m3 l3 text-cinza text-padrao"><p>Saldo em BTC</p></div>
+                  <div class="col s12 m3 l3 text-padrao"><p>{{qtdBTCUser}}</p></div>
+                  <div class="col s13 m3 l3 text-cinza text-padrao"><p>Retirada em BTC</p></div>
+                  <div class="col s12 m3 l3 text-padrao"><p>{{retBTCUser}}</p></div>
+                </div>
+              </div>
+            </div>
+            <div id="listaOrdens" ng-if="tab2">
+              <div class="card-content white-text">
+                <span class="card-title text-cinza margin-zero">Últimas Ordens</span>
+                <p class="text-cinza text-padrao fs16">{{dataAtualizacaoOrdemInfo}}</p>
+              </div>
+              <div class="row card-content white-text">
+                <table class="bordered">
+                  <tr>
+                    <th>Coin Pair</th>
+                    <th>Tipo Ordem</th>
+                    <th>Status</th>
+                    <th>Qtd. Usado</th>
+                    <th>Qtd. Resultante</th>
+                    <th>Preço Unidade</th>
+                  </tr>
+                  <tr ng-repeat="row in listaOrdem">
+                    <td>{{row.coin_pair}}</td>
+                    <td ng-if="row.order_type == 1">Compra</td>
+                    <td ng-if="row.order_type == 2">Venda</td>
+                    <td ng-if="row.status == 2">Aberta</td>
+                    <td ng-if="row.status == 3">Cancelada</td>
+                    <td ng-if="row.status == 4">Concluída</td>
+                    <td>{{row.quantity}}</td>
+                    <td>{{row.executed_quantity}}</td>
+                    <td>{{row.limit_price}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+         </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

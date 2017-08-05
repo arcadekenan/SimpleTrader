@@ -1,4 +1,4 @@
-app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http, $SQLite, $timeout, $filter) {
+app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http, $SQLite, $timeout, $filter, $route) {
 
   var nomeMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
   var pjson = require('./package.json');
@@ -8,6 +8,71 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.loading = true;
   $scope.useronLTC = false;
   $scope.useronBTC = false;
+  $scope.logado = false;
+  $scope.tab1 = true;
+  $scope.tab2 = false;
+  $scope.tab3 = false;
+  $scope.tab4 = false;
+
+
+  $scope.login = function () {
+    $scope.tapiIDInp = document.getElementById('user').value;
+    $scope.secretInp = document.getElementById('password').value;
+    var dateTime = new Date();
+    var tapi_nonce = dateTime.getTime();
+    var url = "/tapi/v3/?tapi_method=get_account_info&tapi_nonce="+tapi_nonce;
+    var encrypttext = $crypthmac.encrypt(url, $scope.secretInp);
+    console.log(encrypttext);
+
+    $http({
+      method: 'POST',
+      url: 'https://www.mercadobitcoin.net/tapi/v3/',
+      headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'TAPI-ID' : $scope.tapiIDInp,
+      'TAPI-MAC' : encrypttext
+      },
+      transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+      },
+      data:{
+        "tapi_method" : "get_account_info",
+        "tapi_nonce" : tapi_nonce,
+      }
+    }).then(function successCallback(response) {
+        console.log(response);
+        var novoDado = {};
+        novoDado["tapi_id"] = $scope.tapiIDInp;
+        novoDado["secret"] = $scope.secretInp;
+        novoDado["status"] = 0;
+        $SQLite.ready(function () {
+           this.insert('USRCARTEIRA', novoDado)
+               .then(function () {
+                        console.log('Conectado Com Sucesso');
+                        $route.reload();
+                    },
+                     function () { console.err('Error!');}
+               );
+        });
+        return true;
+    })
+  };
+
+  $scope.logoff = function(){
+    $SQLite.ready(function () {
+    this.execute('DELETE FROM USRCARTEIRA')
+      .then(function () {
+              console.log('Desconectado Com Sucesso');
+              $('#modal2').modal('close');
+              $route.reload();
+            },
+            function () { console.err('Error!'); }
+      );
+    });
+  }
 
   $SQLite.ready(function () {
       this
@@ -18,8 +83,10 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       function (data) {
         $scope.tapiID = data.item.tapi_id;
         $scope.secret = data.item.secret;
+        $scope.logado = true;
         console.log($scope.tapiID);
         $scope.usrInfo();
+        $scope.ordemInfo();
         console.log(data);
       }
     );
@@ -45,12 +112,53 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       },
       data:{"tapi_method" : "get_account_info", "tapi_nonce" : tapi_nonce,}
     }).then(function successCallback(response) {
+      var date = new Date(response.data.server_unix_timestamp*1000);
+      $scope.dataAtualizacaoUserInfo = "Atualizado em: "+
+                                  nomeMeses[date.getMonth()]+" "+
+                                  date.getDate()+", "+
+                                  date.getHours()+":"+
+                                  date.getMinutes();
+      $scope.qtdRSUser = response.data.response_data.balance.brl.available;
       $scope.qtdLTCUser = response.data.response_data.balance.ltc.available;
       $scope.mostraQtdLTCUser = "LTC "+$scope.qtdLTCUser;
       $scope.qtdBTCUser = response.data.response_data.balance.btc.available;
       $scope.mostraQtdBTCUser = "BTC "+$scope.qtdBTCUser;
+      $scope.retRSUser = response.data.response_data.withdrawal_limits.brl.available;
+      $scope.retLTCUser = response.data.response_data.withdrawal_limits.ltc.available;
+      $scope.retBTCUser = response.data.response_data.withdrawal_limits.btc.available;
       $scope.useronLTC = true;
       $scope.useronBTC = true;
+    })
+  }
+
+  $scope.ordemInfo = function () {
+    var dateTime = new Date();
+    var tapi_nonce = dateTime.getTime();
+    var url = "/tapi/v3/?tapi_method=list_orders&tapi_nonce="+tapi_nonce+"&coin_pair=BRLLTC&has_fills=true";
+    console.log($scope.tapiID);
+    var encrypttext = $crypthmac.encrypt(url, $scope.secret);
+    console.log(encrypttext);
+
+    $http({
+      method: 'POST',
+      url: 'https://www.mercadobitcoin.net/tapi/v3/',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'TAPI-ID' : $scope.tapiID, 'TAPI-MAC' : encrypttext},
+      transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+      },
+      data:{'tapi_method': 'list_orders','tapi_nonce': tapi_nonce,'coin_pair': 'BRLLTC','has_fills': true}
+    }).then(function successCallback(response) {
+      var date = new Date(response.data.server_unix_timestamp*1000);
+      $scope.dataAtualizacaoOrdemInfo = "Atualizado em: "+
+                                  nomeMeses[date.getMonth()]+" "+
+                                  date.getDate()+", "+
+                                  date.getHours()+":"+
+                                  date.getMinutes();
+      $scope.listaOrdem = response.data.response_data.orders;
+      console.log($scope.listaOrdem);
     })
   }
 
@@ -59,6 +167,35 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   });
 
   $(".button-collapse").sideNav();
+
+  $scope.transition1 = function () {
+    $scope.tab1 = true;
+    $scope.tab2 = false;
+    $scope.tab3 = false;
+    $scope.tab4 = false;
+  }
+
+  $scope.transition2 = function () {
+    $scope.tab1 = false;
+    $scope.tab2 = true;
+    $scope.tab3 = false;
+    $scope.tab4 = false;
+  }
+  /*
+  $scope.transition3 = function () {
+    Materialize.fadeInImage('#infoConta')
+    $scope.tab1 = false;
+    $scope.tab2 = false;
+    $scope.tab3 = true;
+    $scope.tab4 = false;
+  }
+  $scope.transition4 = function () {
+    Materialize.fadeInImage('#infoConta')
+    $scope.tab1 = false;
+    $scope.tab2 = false;
+    $scope.tab3 = false;
+    $scope.tab4 = true;
+  }*/
 
   var tick = function() {
       $scope.loading = false;

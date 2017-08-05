@@ -116,13 +116,32 @@
   height: 50% !important;
 }
 
+.modal-logado{
+  width: 80% !important;
+  height: 80% !important;
+}
+
 .card-com-margem{
   margin-left: 2%;
   margin-right: 2%;
 }
 
+.card-padding-10{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.row-margin-bottom-10{
+  margin-bottom: 10px;
+}
+
 .text-branco{
   color: #ffffff !important;
+}
+
+.btn-logado{
+  background-color: rgba(255, 255, 255, 0.25);
+  width: 100% !important;
 }
 
 input:not([type]):focus:not([readonly]),
