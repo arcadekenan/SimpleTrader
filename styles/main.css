@@ -43,7 +43,11 @@
   font-weight: 300;
 }
 
-.fs16{
+.fs12{
+  font-size: 12px;
+}.fs14{
+  font-size: 14px;
+}.fs16{
   font-size: 16px;
 }.fs18{
   font-size: 18px;
@@ -121,7 +125,12 @@
 }
 
 .modal-logado{
-  width: 85% !important;
+  width: 95% !important;
+  height: 80% !important;
+}
+
+.modal-logar{
+  width: 80% !important;
   height: 80% !important;
 }
 
@@ -130,9 +139,23 @@
   color: white;
 }
 
+.compra-seta{
+  font-size: 15px !important;
+  color: #00C97E !important;
+}
+
+.venda-bola{
+  font-size: 15px !important;
+  color: red !important;
+}
+
 .modal-connection{
-  width: 30% !important;
-  height: 30% !important;
+  width: 35% !important;
+  height: 50% !important;
+}
+
+.icon-warning-modal-connection{
+  margin-bottom: 5px !important;
 }
 
 .card-com-margem{
@@ -153,9 +176,18 @@
   margin-bottom: 10px;
 }
 
+.row-inputs{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .tabs-select-style{
   background-color: rgba(255, 255, 255, 0.25) !important;
   color: white !important;
+}
+
+.login-title{
+  margin-top: 20px;
 }
 
 .tabs-ul-style{

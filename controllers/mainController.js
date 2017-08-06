@@ -10,6 +10,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.useronLTC = false;
   $scope.useronBTC = false;
   $scope.logado = false;
+  $scope.modalLogin = "modal-logar"
   $scope.tab1 = true;
   $scope.tab2 = false;
   $scope.tab3 = false;
@@ -20,9 +21,14 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.tableTabAct2 = "";
   $scope.flagLTC = "BRLLTC"
   $scope.flagBTC = "BRLBTC";
+
   if (!onlineStart) {
     $scope.loading = false;
-    $('#modalOnline').modal('open');
+    $('#modalOnline').modal('open', {dismissible: false});
+    setTimeout(function () {
+      $('#modalOnline').modal('close');
+      $route.reload();
+    }, 60000);
   }
 
   $scope.login = function () {
@@ -62,6 +68,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
            this.insert('USRCARTEIRA', novoDado)
                .then(function () {
                         console.log('Conectado Com Sucesso');
+                        $('#modal2').modal('close');
                         $route.reload();
                     },
                      function () { console.err('Error!');}
@@ -94,6 +101,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.tapiID = data.item.tapi_id;
         $scope.secret = data.item.secret;
         $scope.logado = true;
+        $scope.modalLogin = "modal-logado"
         console.log($scope.tapiID);
         $scope.usrInfo();
         $scope.ordemInfo();
@@ -227,6 +235,10 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       var onlineRunning = navigator.onLine;
       if (!onlineRunning) {
         $('#modalOnline').modal('open');
+        setTimeout(function () {
+          $('#modalOnline').modal('close');
+          $route.reload();
+        }, 60000);
       }else{
         $('#modalOnline').modal('close');
       }
