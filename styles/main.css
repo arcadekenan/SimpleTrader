@@ -31,6 +31,10 @@
   color: #858587 !important;
 }
 
+.text-align-center{
+  text-align: center;
+}
+
 .dados-subGraf{
   margin-top: 4%;
 }
@@ -117,8 +121,18 @@
 }
 
 .modal-logado{
-  width: 80% !important;
+  width: 85% !important;
   height: 80% !important;
+}
+
+.icon-internet-fail{
+  font-size: 120px !important;
+  color: white;
+}
+
+.modal-connection{
+  width: 30% !important;
+  height: 30% !important;
 }
 
 .card-com-margem{
@@ -131,9 +145,28 @@
   padding-right: 10px !important;
 }
 
+.card-top-padding-0{
+  padding-top: 0px !important;
+}
+
 .row-margin-bottom-10{
   margin-bottom: 10px;
 }
+
+.tabs-select-style{
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  color: white !important;
+}
+
+.tabs-ul-style{
+  background-color: transparent !important;
+}
+
+.tabs-select-ativo{
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.tabs-select{}
 
 .text-branco{
   color: #ffffff !important;

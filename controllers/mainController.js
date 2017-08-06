@@ -2,6 +2,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
 
   var nomeMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
   var pjson = require('./package.json');
+  var onlineStart = navigator.onLine;
   $scope.versaoST = pjson.version;
   $scope.tickInicial = 3000;
   $scope.tickExecucao = 61000;
@@ -13,7 +14,16 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.tab2 = false;
   $scope.tab3 = false;
   $scope.tab4 = false;
-
+  $scope.table1 = true;
+  $scope.table2 = false;
+  $scope.tableTabAct1 = "tabs-select-ativo";
+  $scope.tableTabAct2 = "";
+  $scope.flagLTC = "BRLLTC"
+  $scope.flagBTC = "BRLBTC";
+  if (!onlineStart) {
+    $scope.loading = false;
+    $('#modalOnline').modal('open');
+  }
 
   $scope.login = function () {
     $scope.tapiIDInp = document.getElementById('user').value;
@@ -181,6 +191,20 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     $scope.tab3 = false;
     $scope.tab4 = false;
   }
+
+  $scope.tableOrdem1 = function () {
+    $scope.table1 = true;
+    $scope.table2 = false;
+    $scope.tableTabAct1 = "tabs-select-ativo";
+    $scope.tableTabAct2 = "";
+  }
+
+  $scope.tableOrdem2 = function () {
+    $scope.table1 = false;
+    $scope.table2 = true;
+    $scope.tableTabAct1 = "";
+    $scope.tableTabAct2 = "tabs-select-ativo";
+  }
   /*
   $scope.transition3 = function () {
     Materialize.fadeInImage('#infoConta')
@@ -199,6 +223,13 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
 
   var tick = function() {
       $scope.loading = false;
+
+      var onlineRunning = navigator.onLine;
+      if (!onlineRunning) {
+        $('#modalOnline').modal('open');
+      }else{
+        $('#modalOnline').modal('close');
+      }
 
       $http({
         method: 'GET',
