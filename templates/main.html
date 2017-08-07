@@ -205,6 +205,12 @@
                 <button class="btn btn-logado waves-light" ng-click="transition2()">Ordens</button>
               </div>
               <div class="row row-margin-bottom-10">
+                <button class="btn btn-logado waves-light" ng-click="transition3()">Compra</button>
+              </div>
+              <div class="row row-margin-bottom-10">
+                <button class="btn btn-logado waves-light" ng-click="transition4()">Venda</button>
+              </div>
+              <div class="row row-margin-bottom-10">
                 <button class="btn btn-logado waves-light" ng-click="logoff()" name="action">Log Out</button>
               </div>
             </div>
@@ -258,17 +264,17 @@
                         <th>Taxa</th>
                         <th>Líquido</th>
                       </tr>
-                      <tr ng-repeat="row in listaOrdem">
-                        <td ng-if="row.order_type == 1 && row.coin_pair == flagLTC"><i class="material-icons compra-seta">arrow_upward</i> Buy LTC</td>
-                        <td ng-if="row.order_type == 2 && row.coin_pair == flagLTC"><i class="material-icons venda-bola">adjust</i> Sell R$</td>
-                        <td ng-if="row.status == 2 && row.coin_pair == flagLTC">Aberta</td>
-                        <td ng-if="row.status == 3 && row.coin_pair == flagLTC">Cancelada</td>
-                        <td ng-if="row.status == 4 && row.coin_pair == flagLTC">Concluída</td>
-                        <td ng-if="row.coin_pair == flagLTC">{{row.quantity}}</td>
-                        <td ng-if="row.coin_pair == flagLTC">{{row.limit_price}}</td>
-                        <td ng-if="row.coin_pair == flagLTC">{{row.fee}}</td>
-                        <td ng-if="row.coin_pair == flagLTC && row.order_type == 2">{{row.executed_quantity * row.limit_price - row.fee}}</td>
-                        <td ng-if="row.coin_pair == flagLTC && row.order_type == 1">{{row.executed_quantity - row.fee}}</td>
+                      <tr ng-repeat="row in listaOrdemLTC">
+                        <td ng-if="row.order_type == 1"><i class="material-icons compra-seta">arrow_upward</i> Buy LTC</td>
+                        <td ng-if="row.order_type == 2"><i class="material-icons venda-bola">adjust</i> Sell R$</td>
+                        <td ng-if="row.status == 2">Aberta</td>
+                        <td ng-if="row.status == 3">Cancelada</td>
+                        <td ng-if="row.status == 4">Concluída</td>
+                        <td>{{row.quantity}}</td>
+                        <td>{{row.limit_price}}</td>
+                        <td>{{row.fee}}</td>
+                        <td ng-if="row.order_type == 2">{{row.executed_quantity * row.limit_price - row.fee}}</td>
+                        <td ng-if="row.order_type == 1">{{row.executed_quantity - row.fee}}</td>
                       </tr>
                     </table>
                   </div>
@@ -282,8 +288,8 @@
                         <th>Taxa</th>
                         <th>Líquido</th>
                       </tr>
-                      <tr ng-repeat="row in listaOrdem">
-                        <td ng-if="row.order_type == 1 && row.coin_pair == flagBTC"><i class="material-icons compra-seta">arrow_upward</i> Buy LTC</td>
+                      <tr ng-repeat="row in listaOrdemBTC">
+                        <td ng-if="row.order_type == 1 && row.coin_pair == flagBTC"><i class="material-icons compra-seta">arrow_upward</i> Buy BTC</td>
                         <td ng-if="row.order_type == 2 && row.coin_pair == flagBTC"><i class="material-icons venda-bola">adjust</i> Sell R$</td>
                         <td ng-if="row.status == 2 && row.coin_pair == flagBTC">Aberta</td>
                         <td ng-if="row.status == 3 && row.coin_pair == flagBTC">Cancelada</td>
@@ -296,6 +302,59 @@
                       </tr>
                   </table>
                 </div>
+              </div>
+            </div>
+            <div id="NovaCompra" ng-if="tab3">
+              <div class="card-content white-text">
+                <span class="card-title text-cinza margin-zero">Nova Compra</span>
+                <p class="text-cinza text-padrao fs16">Abrir uma Nova Ordem de Compra (Buy)</p>
+              </div>
+              <div class="row card-content white-text card-top-padding-0">
+                <div class="row">
+                  <form class="col s12">
+                    <div class="row">
+                      <div class="input-field col s3">
+                        <p>
+                          <input type="checkbox" class="filled-in" id="ltc" ng-checked="compraMDLTC" ng-click="compraCheckBoxLTC()"/>
+                          <label for="ltc" class="text-branco">LiteCoin</label>
+                        </p>
+                      </div>
+                      <div class="input-field col s3">
+                        <p>
+                          <input type="checkbox" class="filled-in" id="btc" ng-checked="compraMDBTC" ng-click="compraCheckBoxBTC()"/>
+                          <label for="btc" class="text-branco">BitCoin</label>
+                        </p>
+                      </div>
+                      <div class="input-field col s3">
+                          <input disabled value="R$ {{qtdRSUser}}" id="disabled" type="text" class="validate">
+                          <label class="active" for="disabled">Saldo</label>
+                      </div>
+                      <div class="input-field col s3">
+                          <input ng-if="compraMDLTC" disabled value="{{mediaParaCompra}}" id="disabled" type="text" class="validate">
+                          <input ng-if="compraMDBTC" disabled value="{{mediaParaCompraBTC}}" id="disabled" type="text" class="validate">
+                          <label class="active" for="disabled">Valor Sugerido</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <input id="first_name" type="text" class="validate">
+                        <label for="first_name">Quantidade</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input id="last_name" type="text" class="validate">
+                        <label for="last_name">Preço</label>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+
+            </div>
+            <div id="NovaVenda" ng-if="tab4">
+              <div class="card-content white-text">
+                <span class="card-title text-cinza margin-zero">Nova Venda</span>
+                <p class="text-cinza text-padrao fs16">Abrir uma Nova Ordem de Venda (Sell)</p>
               </div>
             </div>
           </div>

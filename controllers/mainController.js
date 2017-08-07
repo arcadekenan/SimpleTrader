@@ -21,6 +21,8 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.tableTabAct2 = "";
   $scope.flagLTC = "BRLLTC"
   $scope.flagBTC = "BRLBTC";
+  $scope.compraMDLTC = true;
+  $scope.compraMDBTC = false;
 
   if (!onlineStart) {
     $scope.loading = false;
@@ -104,7 +106,8 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.modalLogin = "modal-logado"
         console.log($scope.tapiID);
         $scope.usrInfo();
-        $scope.ordemInfo();
+        $scope.ordemInfoLTC();
+        $scope.ordemInfoBTC();
         console.log(data);
       }
     );
@@ -149,7 +152,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     })
   }
 
-  $scope.ordemInfo = function () {
+  $scope.ordemInfoLTC = function () {
     var dateTime = new Date();
     var tapi_nonce = dateTime.getTime();
     var url = "/tapi/v3/?tapi_method=list_orders&tapi_nonce="+tapi_nonce+"&coin_pair=BRLLTC&has_fills=true";
@@ -175,16 +178,51 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
                                   date.getDate()+", "+
                                   date.getHours()+":"+
                                   date.getMinutes();
-      $scope.listaOrdem = response.data.response_data.orders;
-      console.log($scope.listaOrdem);
+      $scope.listaOrdemLTC = response.data.response_data.orders;
     })
   }
+
+  $scope.ordemInfoBTC = function () {
+    var dateTime = new Date();
+    var tapi_nonce = dateTime.getTime();
+    var url = "/tapi/v3/?tapi_method=list_orders&tapi_nonce="+tapi_nonce+"&coin_pair=BRLBTC&has_fills=true";
+    console.log($scope.tapiID);
+    var encrypttext = $crypthmac.encrypt(url, $scope.secret);
+    console.log(encrypttext);
+
+    $http({
+      method: 'POST',
+      url: 'https://www.mercadobitcoin.net/tapi/v3/',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'TAPI-ID' : $scope.tapiID, 'TAPI-MAC' : encrypttext},
+      transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+      },
+      data:{'tapi_method': 'list_orders','tapi_nonce': tapi_nonce,'coin_pair': 'BRLBTC','has_fills': true}
+    }).then(function successCallback(response) {
+      var date = new Date(response.data.server_unix_timestamp*1000);
+      $scope.dataAtualizacaoOrdemInfo = "Atualizado em: "+
+                                  nomeMeses[date.getMonth()]+" "+
+                                  date.getDate()+", "+
+                                  date.getHours()+":"+
+                                  date.getMinutes();
+      $scope.listaOrdemBTC = response.data.response_data.orders;
+    })
+  }
+
 
   $(document).ready(function(){
     $('.modal').modal();
   });
 
   $(".button-collapse").sideNav();
+
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+
 
   $scope.transition1 = function () {
     $scope.tab1 = true;
@@ -213,21 +251,33 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     $scope.tableTabAct1 = "";
     $scope.tableTabAct2 = "tabs-select-ativo";
   }
-  /*
+
   $scope.transition3 = function () {
-    Materialize.fadeInImage('#infoConta')
     $scope.tab1 = false;
     $scope.tab2 = false;
     $scope.tab3 = true;
     $scope.tab4 = false;
   }
   $scope.transition4 = function () {
-    Materialize.fadeInImage('#infoConta')
     $scope.tab1 = false;
     $scope.tab2 = false;
     $scope.tab3 = false;
     $scope.tab4 = true;
-  }*/
+  }
+
+  $scope.compraCheckBoxBTC = function () {
+    $scope.compraMDLTC = false;
+    $scope.compraMDBTC = true;
+    console.log("BTC"+$scope.compraMDBTC+"LTC"+$scope.compraMDLTC);
+  }
+
+  $scope.compraCheckBoxLTC = function () {
+    $scope.compraMDLTC = true;
+    $scope.compraMDBTC = false;
+    console.log("BTC"+$scope.compraMDBTC+"LTC"+$scope.compraMDLTC);
+  }
+
+
 
   var tick = function() {
       $scope.loading = false;
