@@ -268,13 +268,41 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.compraCheckBoxBTC = function () {
     $scope.compraMDLTC = false;
     $scope.compraMDBTC = true;
-    console.log("BTC"+$scope.compraMDBTC+"LTC"+$scope.compraMDLTC);
   }
 
   $scope.compraCheckBoxLTC = function () {
     $scope.compraMDLTC = true;
     $scope.compraMDBTC = false;
-    console.log("BTC"+$scope.compraMDBTC+"LTC"+$scope.compraMDLTC);
+  }
+
+  $scope.selectSaldoTotal = function () {
+    $scope.valorRealCompra = $scope.qtdRSUser;
+    document.getElementById("valorReal").value = $scope.valorRealCompra;
+    $scope.labelValorR$Ativado = "active";
+    $scope.quantidadeMoedaCompraLTC = $scope.valorRealCompra / $scope.mediaParaCompraNum;
+    $scope.quantidadeMoedaCompraBTC = $scope.valorRealCompra / $scope.mediaParaCompraBTCNum;
+    $scope.labelQuantidadeMoeda = "active";
+    $scope.comissaoLTCCompra = $scope.quantidadeMoedaCompraLTC * 0.07;
+    $scope.comissaoBTCCompra = $scope.quantidadeMoedaCompraBTC * 0.07;
+    $scope.labelComissao = "active";
+    $scope.precoMedioUsadoLTC = $scope.mediaParaCompra;
+    $scope.precoMedioUsadoBTC = $scope.mediaParaCompraBTC;
+    $scope.labelPrecoMedioUsado = "active";
+  }
+
+  $scope.valorInformado = function () {
+    console.log("entrou");
+    $scope.valorRealCompra = document.getElementById('valorReal').value;
+    $scope.labelValorR$Ativado = "active";
+    $scope.quantidadeMoedaCompraLTC = document.getElementById('valorReal').value / $scope.mediaParaCompraNum;
+    $scope.quantidadeMoedaCompraBTC = document.getElementById('valorReal').value / $scope.mediaParaCompraBTCNum;
+    $scope.labelQuantidadeMoeda = "active";
+    $scope.comissaoLTCCompra = $scope.quantidadeMoedaCompraLTC * 0.07;
+    $scope.comissaoBTCCompra = $scope.quantidadeMoedaCompraBTC * 0.07;
+    $scope.labelComissao = "active";
+    $scope.precoMedioUsadoLTC = $scope.mediaParaCompra;
+    $scope.precoMedioUsadoBTC = $scope.mediaParaCompraBTC;
+    $scope.labelPrecoMedioUsado = "active";
   }
 
 
@@ -285,10 +313,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       var onlineRunning = navigator.onLine;
       if (!onlineRunning) {
         $('#modalOnline').modal('open');
-        setTimeout(function () {
-          $('#modalOnline').modal('close');
-          $route.reload();
-        }, 60000);
       }else{
         $('#modalOnline').modal('close');
       }
@@ -322,6 +346,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
           $scope.menorValorVendaLTC = response.data.ticker.sell;
           novoDado["sell"] = $scope.menorValorVendaLTC;
           $scope.mediaParaCompra = ($scope.maiorValorCompraLTC + $scope.menorValorVendaLTC)/2;
+          $scope.mediaParaCompraNum = ($scope.maiorValorCompraLTC + $scope.menorValorVendaLTC)/2;
           if (typeof $scope.qtdLTCUser != 'undefined') {
             var valorReais = $scope.mediaParaCompra * $scope.qtdLTCUser;
             $scope.estadoReaisLTC = "R$ "+$filter('limitTo')((valorReais), 8);
@@ -529,6 +554,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
           $scope.menorValorVendaBTC = response.data.ticker.sell;
           novoDado["sell"] = $scope.menorValorVendaBTC;
           $scope.mediaParaCompraBTC = ($scope.maiorValorCompraBTC + $scope.menorValorVendaBTC)/2;
+          $scope.mediaParaCompraBTCNum = ($scope.maiorValorCompraBTC + $scope.menorValorVendaBTC)/2;
           if (typeof $scope.qtdBTCUser != 'undefined') {
             var valorReais = $scope.mediaParaCompraBTC * $scope.qtdBTCUser;
             $scope.estadoReaisBTC = "R$ "+$filter('limitTo')((valorReais), 8);

@@ -325,25 +325,48 @@
                           <label for="btc" class="text-branco">BitCoin</label>
                         </p>
                       </div>
-                      <div class="input-field col s3">
+                      <div class="input-field col s3" ng-click="selectSaldoTotal()">
                           <input disabled value="R$ {{qtdRSUser}}" id="disabled" type="text" class="validate">
                           <label class="active" for="disabled">Saldo</label>
                       </div>
                       <div class="input-field col s3">
                           <input ng-if="compraMDLTC" disabled value="{{mediaParaCompra}}" id="disabled" type="text" class="validate">
                           <input ng-if="compraMDBTC" disabled value="{{mediaParaCompraBTC}}" id="disabled" type="text" class="validate">
-                          <label class="active" for="disabled">Valor Sugerido</label>
+                          <label class="active" for="disabled">Valor Atual</label>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="input-field col s6">
-                        <input id="first_name" type="text" class="validate">
-                        <label for="first_name">Quantidade</label>
+                      <div class="input-field col s3">
+                        <input id="valorReal" type="text" class="validate" ng-model="valorRealCompra" ng-change="valorInformado()">
+                        <label for="valorReal" ng-class="labelValorR$Ativado">Valor em R$</label>
                       </div>
-                      <div class="input-field col s6">
-                        <input id="last_name" type="text" class="validate">
-                        <label for="last_name">Preço</label>
+                      <div class="input-field col s3">
+                        <input ng-if="compraMDBTC" id="quantidadeMoeda" type="text" class="validate" ng-model="quantidadeMoedaCompraBTC">
+                        <input ng-if="compraMDLTC" id="quantidadeMoeda" type="text" class="validate" ng-model="quantidadeMoedaCompraLTC">
+                        <label for="quantidadeMoeda" ng-class="labelQuantidadeMoeda">Quantidade Moeda</label>
                       </div>
+                      <div class="input-field col s3">
+                        <input ng-if="compraMDBTC" id="comissaoBTC" type="text" ng-model="comissaoBTCCompra" class="validate">
+                        <input ng-if="compraMDLTC" id="comissaoLTC" type="text" ng-model="comissaoLTCCompra" class="validate">
+                        <label for="comissao" ng-class="labelComissao">Comissão</label>
+                      </div>
+                      <div class="input-field col s3">
+                        <input ng-if="compraMDBTC" id="precoMedioUsadoBTC" type="text" ng-model="precoMedioUsadoBTC" class="validate">
+                        <input ng-if="compraMDLTC" id="precoMedioUsadoLTC" type="text" ng-model="precoMedioUsadoLTC" class="validate">
+                        <label for="precoMedioUsado" ng-class="labelPrecoMedioUsado">Preço</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m4 l2"></div>
+                      <div class="col s12 m4 l8 text-align-center">
+                        <button class="btn waves-effect waves-light" onclick="Materialize.toast('I am a toast!', 3000, 'toast-text')" name="action">COMPRAR</button>
+                      </div>
+                      <div class="col s12 m4 l2"></div>
+                    </div>
+                    <div class="row text-align-center">
+                      <span class="text-cinza text-padrao fs12">*Os valores podem sofrer pequena alteração devido à ativade do mercado</span><br>
+                      <span class="text-cinza text-padrao fs12">A operação de compra é irreversível</span><br>
+                      <span class="text-cinza text-padrao fs12">Comissão: 0,70% (na Moeda Selecionada)</span><br>
                     </div>
                   </form>
                 </div>
