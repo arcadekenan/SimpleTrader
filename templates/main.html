@@ -325,9 +325,9 @@
                           <label for="btc" class="text-branco">BitCoin</label>
                         </p>
                       </div>
-                      <div class="input-field col s3" ng-click="selectSaldoTotal()">
-                          <input disabled value="R$ {{qtdRSUser}}" id="disabled" type="text" class="validate">
-                          <label class="active" for="disabled">Saldo</label>
+                      <div class="input-field col s3" ng-click="selectSaldoTotalCompra()">
+                          <input disabled value="R$ {{qtdRSUser}}" id="disabled" type="text" class="validate input-disable-functional">
+                          <label class="active label-disable-functional" for="disabled">Saldo</label>
                       </div>
                       <div class="input-field col s3">
                           <input ng-if="compraMDLTC" disabled value="{{mediaParaCompra}}" id="disabled" type="text" class="validate">
@@ -341,19 +341,19 @@
                         <label for="valorReal" ng-class="labelValorR$Ativado">Valor em R$</label>
                       </div>
                       <div class="input-field col s3">
-                        <input ng-if="compraMDBTC" id="quantidadeMoeda" type="text" class="validate" ng-model="quantidadeMoedaCompraBTC">
-                        <input ng-if="compraMDLTC" id="quantidadeMoeda" type="text" class="validate" ng-model="quantidadeMoedaCompraLTC">
-                        <label for="quantidadeMoeda" ng-class="labelQuantidadeMoeda">Quantidade Moeda</label>
+                        <input disabled ng-if="compraMDBTC" id="quantidadeMoedaCompraBTC" type="text" class="validate" ng-model="quantidadeMoedaCompraBTC">
+                        <input disabled ng-if="compraMDLTC" id="quantidadeMoedaCompraLTC" type="text" class="validate" ng-model="quantidadeMoedaCompraLTC">
+                        <label for="quantidadeMoeda" ng-class="labelQuantidadeMoeda">Qtd. Moeda</label>
                       </div>
                       <div class="input-field col s3">
-                        <input ng-if="compraMDBTC" id="comissaoBTC" type="text" ng-model="comissaoBTCCompra" class="validate">
-                        <input ng-if="compraMDLTC" id="comissaoLTC" type="text" ng-model="comissaoLTCCompra" class="validate">
+                        <input disabled ng-if="compraMDBTC" id="comissaoBTC" type="text" ng-model="comissaoBTCCompra" class="validate">
+                        <input disabled ng-if="compraMDLTC" id="comissaoLTC" type="text" ng-model="comissaoLTCCompra" class="validate">
                         <label for="comissao" ng-class="labelComissao">Comissão</label>
                       </div>
                       <div class="input-field col s3">
-                        <input ng-if="compraMDBTC" id="precoMedioUsadoBTC" type="text" ng-model="precoMedioUsadoBTC" class="validate">
-                        <input ng-if="compraMDLTC" id="precoMedioUsadoLTC" type="text" ng-model="precoMedioUsadoLTC" class="validate">
-                        <label for="precoMedioUsado" ng-class="labelPrecoMedioUsado">Preço</label>
+                        <input disabled ng-if="compraMDBTC" disabled id="liquidoCompraBTC" type="text" ng-model="liquidoCompraBTC" class="validate">
+                        <input disabled ng-if="compraMDLTC" disabled id="liquidoCompraLTC" type="text" ng-model="liquidoCompraLTC" class="validate">
+                        <label for="liquidoCompra" ng-class="labelliquidoCompra">Líquido</label>
                       </div>
                     </div>
                     <div class="row">
@@ -363,21 +363,85 @@
                       </div>
                       <div class="col s12 m4 l2"></div>
                     </div>
-                    <div class="row text-align-center">
+                    <div class="row text-align-center row-margin-bottom-0">
                       <span class="text-cinza text-padrao fs12">*Os valores podem sofrer pequena alteração devido à ativade do mercado</span><br>
                       <span class="text-cinza text-padrao fs12">A operação de compra é irreversível</span><br>
                       <span class="text-cinza text-padrao fs12">Comissão: 0,70% (na Moeda Selecionada)</span><br>
                     </div>
                   </form>
                 </div>
-
               </div>
-
             </div>
             <div id="NovaVenda" ng-if="tab4">
               <div class="card-content white-text">
                 <span class="card-title text-cinza margin-zero">Nova Venda</span>
                 <p class="text-cinza text-padrao fs16">Abrir uma Nova Ordem de Venda (Sell)</p>
+              </div>
+              <div class="row card-content white-text card-top-padding-0">
+                <div class="row">
+                  <form class="col s12">
+                    <div class="row">
+                      <div class="input-field col s3">
+                        <p>
+                          <input type="checkbox" class="filled-in" id="ltc" ng-checked="vendaMDLTC" ng-click="vendaCheckBoxLTC()"/>
+                          <label for="ltc" class="text-branco">LiteCoin</label>
+                        </p>
+                      </div>
+                      <div class="input-field col s3">
+                        <p>
+                          <input type="checkbox" class="filled-in" id="btc" ng-checked="vendaMDBTC" ng-click="vendaCheckBoxBTC()"/>
+                          <label for="btc" class="text-branco">BitCoin</label>
+                        </p>
+                      </div>
+                      <div class="input-field col s3" ng-if="vendaMDLTC" ng-click="selectSaldoTotalVendaLTC()">
+                          <input disabled value="{{mostraQtdLTCUser}}" id="disabled" type="text" class="validate input-disable-functional">
+                          <label class="active label-disable-functional" for="disabled">Saldo</label>
+                      </div>
+                      <div class="input-field col s3" ng-if="vendaMDBTC" ng-click="selectSaldoTotalVendaBTC()">
+                          <input disabled value="{{mostraQtdBTCUser}}" id="disabled" type="text" class="validate input-disable-functional">
+                          <label class="active label-disable-functional" for="disabled">Saldo</label>
+                      </div>
+                      <div class="input-field col s3">
+                          <input ng-if="vendaMDLTC" disabled value="{{mediaParaCompra}}" id="disabled" type="text" class="validate">
+                          <input ng-if="vendaMDBTC" disabled value="{{mediaParaCompraBTC}}" id="disabled" type="text" class="validate">
+                          <label class="active" for="disabled">Valor Atual</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s3">
+                        <input id="valorMD" type="text" class="validate" ng-model="valorRealVenda" ng-change="valorInformadoMD()">
+                        <label for="valorMD" ng-class="labelValorMDAtivado">Valor em R$</label>
+                      </div>
+                      <div class="input-field col s3">
+                        <input disabled ng-if="vendaMDBTC" id="quantidadeMoedaVendaBTC" type="text" class="validate" ng-model="quantidadeMoedaVendaBTC">
+                        <input disabled ng-if="vendaMDLTC" id="quantidadeMoedaVendaLTC" type="text" class="validate" ng-model="quantidadeMoedaVendaLTC">
+                        <label for="quantidadeVenda" ng-class="labelQuantidadeVenda">Qtd. Moeda</label>
+                      </div>
+                      <div class="input-field col s3">
+                        <input disabled ng-if="vendaMDBTC" id="comissaoVendaBTC" type="text" ng-model="comissaoVendaBTC" class="validate">
+                        <input disabled ng-if="vendaMDLTC" id="comissaoVendaLTC" type="text" ng-model="comissaoVendaLTC" class="validate">
+                        <label for="comissaoVenda" ng-class="labelComissaoVenda">Comissão</label>
+                      </div>
+                      <div class="input-field col s3">
+                        <input disabled ng-if="vendaMDBTC" id="liquidoVendaBTC" type="text" ng-model="liquidoVendaBTC" class="validate">
+                        <input disabled ng-if="vendaMDLTC" id="liquidoVendaLTC" type="text" ng-model="liquidoVendaLTC" class="validate">
+                        <label for="liquidoVenda" ng-class="labelliquidoVenda">Líquido</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m4 l2"></div>
+                      <div class="col s12 m4 l8 text-align-center">
+                        <button class="btn waves-effect waves-light" onclick="Materialize.toast('I am a toast!', 3000, 'toast-text')" name="action">VENDER</button>
+                      </div>
+                      <div class="col s12 m4 l2"></div>
+                    </div>
+                    <div class="row text-align-center row-margin-bottom-0">
+                      <span class="text-cinza text-padrao fs12">*Os valores podem sofrer pequena alteração devido à ativade do mercado</span><br>
+                      <span class="text-cinza text-padrao fs12">A operação de compra é irreversível</span><br>
+                      <span class="text-cinza text-padrao fs12">Comissão: 0,70% (na Moeda Selecionada)</span><br>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>

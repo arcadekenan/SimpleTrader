@@ -23,6 +23,8 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.flagBTC = "BRLBTC";
   $scope.compraMDLTC = true;
   $scope.compraMDBTC = false;
+  $scope.vendaMDLTC = true;
+  $scope.VendaMDBTC = false;
 
   if (!onlineStart) {
     $scope.loading = false;
@@ -275,36 +277,88 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     $scope.compraMDBTC = false;
   }
 
-  $scope.selectSaldoTotal = function () {
+  $scope.vendaCheckBoxBTC = function () {
+    $scope.vendaMDLTC = false;
+    $scope.vendaMDBTC = true;
+  }
+
+  $scope.vendaCheckBoxLTC = function () {
+    $scope.vendaMDLTC = true;
+    $scope.vendaMDBTC = false;
+  }
+
+  $scope.selectSaldoTotalCompra = function () {
     $scope.valorRealCompra = $scope.qtdRSUser;
     document.getElementById("valorReal").value = $scope.valorRealCompra;
     $scope.labelValorR$Ativado = "active";
-    $scope.quantidadeMoedaCompraLTC = $scope.valorRealCompra / $scope.mediaParaCompraNum;
-    $scope.quantidadeMoedaCompraBTC = $scope.valorRealCompra / $scope.mediaParaCompraBTCNum;
+    $scope.quantidadeMoedaCompraLTC = ($scope.valorRealCompra / $scope.mediaParaCompraNum).toFixed(8);
+    $scope.quantidadeMoedaCompraBTC = ($scope.valorRealCompra / $scope.mediaParaCompraBTCNum).toFixed(8);
     $scope.labelQuantidadeMoeda = "active";
-    $scope.comissaoLTCCompra = $scope.quantidadeMoedaCompraLTC * 0.07;
-    $scope.comissaoBTCCompra = $scope.quantidadeMoedaCompraBTC * 0.07;
+    $scope.comissaoLTCCompra = ($scope.quantidadeMoedaCompraLTC * 0.007).toFixed(8);
+    $scope.comissaoBTCCompra = ($scope.quantidadeMoedaCompraBTC * 0.007).toFixed(8);
     $scope.labelComissao = "active";
-    $scope.precoMedioUsadoLTC = $scope.mediaParaCompra;
-    $scope.precoMedioUsadoBTC = $scope.mediaParaCompraBTC;
-    $scope.labelPrecoMedioUsado = "active";
+    $scope.liquidoCompraLTC = $scope.quantidadeMoedaCompraLTC - $scope.comissaoLTCCompra;
+    $scope.liquidoCompraBTC = $scope.quantidadeMoedaCompraBTC - $scope.comissaoBTCCompra;
+    $scope.labelliquidoCompra = "active";
+  }
+
+  $scope.selectSaldoTotalVendaLTC = function (){
+    $scope.valorRealVenda = $scope.qtdLTCUser;
+    document.getElementById("valorMD").value = $scope.valorRealVenda;
+    $scope.labelValorMDAtivado = "active";
+    $scope.quantidadeMoedaVendaLTC = (document.getElementById('valorMD').value * $scope.mediaParaCompraNum).toFixed(8);
+    $scope.quantidadeMoedaVendaBTC = (document.getElementById('valorMD').value * $scope.mediaParaCompraBTCNum).toFixed(8);
+    $scope.labelQuantidadeVenda = "active";
+    $scope.comissaoVendaLTC = ($scope.quantidadeMoedaVendaLTC * 0.007).toFixed(8);
+    $scope.comissaoVendaBTC = ($scope.quantidadeMoedaVendaBTC * 0.007).toFixed(8);
+    $scope.labelComissaoVenda = "active";
+    $scope.liquidoVendaLTC = $scope.quantidadeMoedaVendaLTC - $scope.comissaoVendaLTC;
+    $scope.liquidoVendaBTC = $scope.quantidadeMoedaVendaBTC - $scope.comissaoVendaBTC;
+    $scope.labelliquidoVenda = "active";
+  }
+
+  $scope.selectSaldoTotalVendaBTC = function (){
+    $scope.valorRealVenda = $scope.qtdBTCUser;
+    document.getElementById("valorMD").value = $scope.valorRealVenda;
+    $scope.labelValorMDAtivado = "active";
+    $scope.quantidadeMoedaVendaLTC = (document.getElementById('valorMD').value * $scope.mediaParaCompraNum).toFixed(8);
+    $scope.quantidadeMoedaVendaBTC = (document.getElementById('valorMD').value * $scope.mediaParaCompraBTCNum).toFixed(8);
+    $scope.labelQuantidadeVenda = "active";
+    $scope.comissaoVendaLTC = ($scope.quantidadeMoedaVendaLTC * 0.007).toFixed(8);
+    $scope.comissaoVendaBTC = ($scope.quantidadeMoedaVendaBTC * 0.007).toFixed(8);
+    $scope.labelComissaoVenda = "active";
+    $scope.liquidoVendaLTC = $scope.quantidadeMoedaVendaLTC - $scope.comissaoVendaLTC;
+    $scope.liquidoVendaBTC = $scope.quantidadeMoedaVendaBTC - $scope.comissaoVendaBTC;
+    $scope.labelliquidoVenda = "active";
   }
 
   $scope.valorInformado = function () {
-    console.log("entrou");
     $scope.valorRealCompra = document.getElementById('valorReal').value;
     $scope.labelValorR$Ativado = "active";
-    $scope.quantidadeMoedaCompraLTC = document.getElementById('valorReal').value / $scope.mediaParaCompraNum;
-    $scope.quantidadeMoedaCompraBTC = document.getElementById('valorReal').value / $scope.mediaParaCompraBTCNum;
+    $scope.quantidadeMoedaCompraLTC = (document.getElementById('valorReal').value / $scope.mediaParaCompraNum).toFixed(8);
+    $scope.quantidadeMoedaCompraBTC = (document.getElementById('valorReal').value / $scope.mediaParaCompraBTCNum).toFixed(8);
     $scope.labelQuantidadeMoeda = "active";
-    $scope.comissaoLTCCompra = $scope.quantidadeMoedaCompraLTC * 0.07;
-    $scope.comissaoBTCCompra = $scope.quantidadeMoedaCompraBTC * 0.07;
+    $scope.comissaoLTCCompra = ($scope.quantidadeMoedaCompraLTC * 0.007).toFixed(8);
+    $scope.comissaoBTCCompra = ($scope.quantidadeMoedaCompraBTC * 0.007).toFixed(8);
     $scope.labelComissao = "active";
-    $scope.precoMedioUsadoLTC = $scope.mediaParaCompra;
-    $scope.precoMedioUsadoBTC = $scope.mediaParaCompraBTC;
-    $scope.labelPrecoMedioUsado = "active";
+    $scope.liquidoCompraLTC = $scope.quantidadeMoedaCompraLTC - $scope.comissaoLTCCompra;
+    $scope.liquidoCompraBTC = $scope.quantidadeMoedaCompraBTC - $scope.comissaoBTCCompra;
+    $scope.labelliquidoCompra = "active";
   }
 
+  $scope.valorInformadoMD = function () {
+    $scope.valorRealVenda = document.getElementById('valorMD').value;
+    $scope.labelValorMDAtivado = "active";
+    $scope.quantidadeMoedaVendaLTC = (document.getElementById('valorMD').value * $scope.mediaParaCompraNum).toFixed(8);
+    $scope.quantidadeMoedaVendaBTC = (document.getElementById('valorMD').value * $scope.mediaParaCompraBTCNum).toFixed(8);
+    $scope.labelQuantidadeVenda = "active";
+    $scope.comissaoVendaLTC = ($scope.quantidadeMoedaVendaLTC * 0.007).toFixed(8);
+    $scope.comissaoVendaBTC = ($scope.quantidadeMoedaVendaBTC * 0.007).toFixed(8);
+    $scope.labelComissaoVenda = "active";
+    $scope.liquidoVendaLTC = $scope.quantidadeMoedaVendaLTC - $scope.comissaoVendaLTC;
+    $scope.liquidoVendaBTC = $scope.quantidadeMoedaVendaBTC - $scope.comissaoVendaBTC;
+    $scope.labelliquidoVenda = "active";
+  }
 
 
   var tick = function() {
