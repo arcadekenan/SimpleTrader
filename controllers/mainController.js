@@ -5,7 +5,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   var onlineStart = navigator.onLine;
   $scope.versaoST = pjson.version;
   $scope.tickInicial = 3000;
-  $scope.tickExecucao = 61000;
+  $scope.tickExecucao = 60000;
   $scope.loading = true;
   $scope.useronLTC = false;
   $scope.useronBTC = false;
@@ -24,8 +24,9 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.compraMDLTC = true;
   $scope.compraMDBTC = false;
   $scope.vendaMDLTC = true;
-  $scope.VendaMDBTC = false;
+  $scope.vendaMDBTC = false;
 
+  /*
   if (!onlineStart) {
     $scope.loading = false;
     $('#modalOnline').modal('open', {dismissible: false});
@@ -33,7 +34,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       $('#modalOnline').modal('close');
       $route.reload();
     }, 60000);
-  }
+  }*/
 
   $scope.login = function () {
     $scope.tapiIDInp = document.getElementById('user').value;
@@ -204,6 +205,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       },
       data:{'tapi_method': 'list_orders','tapi_nonce': tapi_nonce,'coin_pair': 'BRLBTC','has_fills': true}
     }).then(function successCallback(response) {
+      console.log(response);
       var date = new Date(response.data.server_unix_timestamp*1000);
       $scope.dataAtualizacaoOrdemInfo = "Atualizado em: "+
                                   nomeMeses[date.getMonth()]+" "+
@@ -211,6 +213,110 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
                                   date.getHours()+":"+
                                   date.getMinutes();
       $scope.listaOrdemBTC = response.data.response_data.orders;
+    })
+  }
+
+  $scope.compraMercado = function () {
+    console.log("Comecei a Comprar");
+    var dateTime = new Date();
+    var tapi_nonce = dateTime.getTime();
+    if($scope.compraMDLTC){
+      var coin_pair = "BRLLTC";
+      var quantity = $scope.quantidadeMoedaCompraLTC;
+      var limit_price = $scope.mediaParaCompraNum.toFixed(5);
+    }else if($scope.compraMDBTC){
+      var coin_pair = "BRLBTC";
+      var quantity = $scope.quantidadeMoedaCompraBTC;
+      var limit_price = $scope.mediaParaCompraBTCNum.toFixed(5);
+    }
+    var url = "/tapi/v3/?tapi_method=place_buy_order&tapi_nonce="+tapi_nonce+"&coin_pair="+coin_pair+"&quantity="+quantity+"&limit_price="+limit_price;
+    console.log("Setei as variaveis:"+coin_pair+quantity+" -- "+limit_price);
+    var encrypttext = $crypthmac.encrypt(url, $scope.secret);
+    console.log(encrypttext);
+
+    $http({
+      method: 'POST',
+      url: 'https://www.mercadobitcoin.net/tapi/v3/',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'TAPI-ID' : $scope.tapiID, 'TAPI-MAC' : encrypttext},
+      transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+      },
+      data:{'tapi_method': 'place_buy_order','tapi_nonce': tapi_nonce,'coin_pair': coin_pair,'quantity': quantity, 'limit_price': limit_price}
+    }).then(function successCallback(response) {
+      if(response.data.status_code != 100){
+        if(response.data.status_code == 206){
+          Materialize.toast("Valor não permitido", 5000, 'toast-falha')
+        }else{
+          Materialize.toast(response.data.error_message, 5000, 'toast-falha')
+        }
+      }else{
+        Materialize.toast("Ordem de Compra executada com sucesso!", 5000, 'toast-sucesso')
+        if($scope.compraMDLTC){
+          $scope.ordemInfoLTC();
+          $scope.tableOrdem1();
+          $scope.transition2();
+        }else if($scope.compraMDBTC){
+          $scope.ordemInfoBTC();
+          $scope.tableOrdem2();
+          $scope.transition2();
+        }
+      }
+    })
+  }
+
+  $scope.vendaMercado = function () {
+    var dateTime = new Date();
+    var tapi_nonce = dateTime.getTime();
+    console.log("Comecei a Comprar");
+
+    if($scope.vendaMDLTC){
+      var coin_pair = "BRLLTC";
+      var quantity = $scope.valorRealVenda;
+      var limit_price = $scope.mediaParaCompraNum.toFixed(5);
+    }else if($scope.vendaMDBTC){
+      var coin_pair = "BRLBTC";
+      var quantity = $scope.valorRealVenda;
+      var limit_price = $scope.mediaParaCompraBTCNum.toFixed(5);
+    }
+    var url = "/tapi/v3/?tapi_method=place_sell_order&tapi_nonce="+tapi_nonce+"&coin_pair="+coin_pair+"&quantity="+quantity+"&limit_price="+limit_price;
+    var encrypttext = $crypthmac.encrypt(url, $scope.secret);
+    console.log("Setei as variaveis:"+coin_pair+quantity+" -- "+limit_price);
+    console.log(encrypttext);
+
+    $http({
+      method: 'POST',
+      url: 'https://www.mercadobitcoin.net/tapi/v3/',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'TAPI-ID' : $scope.tapiID, 'TAPI-MAC' : encrypttext},
+      transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+      },
+      data:{'tapi_method': 'place_sell_order','tapi_nonce': tapi_nonce,'coin_pair': coin_pair,'quantity': quantity, 'limit_price': limit_price}
+    }).then(function successCallback(response) {
+      console.log(response);
+      if(response.data.status_code != 100){
+        if(response.data.status_code == 206){
+          Materialize.toast("Valor não permitido", 5000, 'toast-falha')
+        }else{
+          Materialize.toast(response.data.error_message, 5000, 'toast-falha')
+        }
+      }else{
+        Materialize.toast("Ordem de Venda executada com sucesso!", 5000, 'toast-sucesso')
+        if($scope.compraMDLTC){
+          $scope.ordemInfoLTC();
+          $scope.tableOrdem1();
+          $scope.transition2();
+        }else if($scope.compraMDBTC){
+          $scope.ordemInfoBTC();
+          $scope.tableOrdem2();
+          $scope.transition2();
+        }
+      }
     })
   }
 

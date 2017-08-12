@@ -359,7 +359,7 @@
                     <div class="row">
                       <div class="col s12 m4 l2"></div>
                       <div class="col s12 m4 l8 text-align-center">
-                        <button class="btn waves-effect waves-light" onclick="Materialize.toast('I am a toast!', 3000, 'toast-text')" name="action">COMPRAR</button>
+                        <button class="btn waves-effect waves-light" ng-click="compraMercado()" name="action">COMPRAR</button>
                       </div>
                       <div class="col s12 m4 l2"></div>
                     </div>
@@ -410,12 +410,13 @@
                     <div class="row">
                       <div class="input-field col s3">
                         <input id="valorMD" type="text" class="validate" ng-model="valorRealVenda" ng-change="valorInformadoMD()">
-                        <label for="valorMD" ng-class="labelValorMDAtivado">Valor em R$</label>
+                        <label for="valorMD" ng-if="vendaMDBTC" ng-class="labelValorMDAtivado">Valor em BTC</label>
+                        <label for="valorMD" ng-if="vendaMDLTC" ng-class="labelValorMDAtivado">Valor em LTC</label>
                       </div>
                       <div class="input-field col s3">
                         <input disabled ng-if="vendaMDBTC" id="quantidadeMoedaVendaBTC" type="text" class="validate" ng-model="quantidadeMoedaVendaBTC">
                         <input disabled ng-if="vendaMDLTC" id="quantidadeMoedaVendaLTC" type="text" class="validate" ng-model="quantidadeMoedaVendaLTC">
-                        <label for="quantidadeVenda" ng-class="labelQuantidadeVenda">Qtd. Moeda</label>
+                        <label for="quantidadeVenda" ng-class="labelQuantidadeVenda">Qtd. R$</label>
                       </div>
                       <div class="input-field col s3">
                         <input disabled ng-if="vendaMDBTC" id="comissaoVendaBTC" type="text" ng-model="comissaoVendaBTC" class="validate">
@@ -431,7 +432,7 @@
                     <div class="row">
                       <div class="col s12 m4 l2"></div>
                       <div class="col s12 m4 l8 text-align-center">
-                        <button class="btn waves-effect waves-light" onclick="Materialize.toast('I am a toast!', 3000, 'toast-text')" name="action">VENDER</button>
+                        <button class="btn waves-effect waves-light" ng-click="vendaMercado()" name="action">VENDER</button>
                       </div>
                       <div class="col s12 m4 l2"></div>
                     </div>
