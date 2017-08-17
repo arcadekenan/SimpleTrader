@@ -1,26 +1,6 @@
-var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js", "angular-hmac-sha512"]);
+var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js", "angular-hmac-sha512", "firebase"]);
 
   app.constant('DB_CONFIG', {
-      dados: {
-          id: 'key',
-          date: { type: 'text', null: false },
-          high: { type: 'real', null: false },
-          low: { type: 'real', null: false },
-          vol: { type: 'real', null: false },
-          last: { type: 'real', null: false },
-          buy: { type: 'real', null: false },
-          sell: { type: 'real', null: false },
-      },
-      dadosbtc: {
-          id: 'key',
-          date: { type: 'text', null: false },
-          high: { type: 'real', null: false },
-          low: { type: 'real', null: false },
-          vol: { type: 'real', null: false },
-          last: { type: 'real', null: false },
-          buy: { type: 'real', null: false },
-          sell: { type: 'real', null: false },
-      },
       usrcarteira: {
           id: 'key',
           tapi_id: { type: 'text', null: false },
@@ -32,7 +12,7 @@ var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js", "angular-h
   app.run(function ($SQLite) {
       $SQLite.dbConfig({
           name: 'simple-trader-db',
-          description: 'Test DB',
+          description: 'AppLocal DB',
           version: '1.0'
       });
   })
@@ -47,19 +27,10 @@ var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js", "angular-h
       });
   });
 
-//  app.config(function($crypthmacProvider){});
-
   app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
       templateUrl : "templates/main.html",
       controllerUrl : "mainController"
     })
-    .when("/negocios", {
-      templateUrl : "templates/negocios.html",
-      controllerUrl : "negociosController"
-    })
-//    .otherwise({
-//      templateUrl : "app/template/main.htm"
-//    });
   });
