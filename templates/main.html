@@ -257,16 +257,16 @@
                         <th>Líquido</th>
                       </tr>
                       <tr ng-repeat="row in listaOrdemBTC">
-                        <td ng-if="row.order_type == 1 && row.coin_pair == flagBTC"><i class="material-icons compra-seta">arrow_upward</i> Buy BTC</td>
-                        <td ng-if="row.order_type == 2 && row.coin_pair == flagBTC"><i class="material-icons venda-bola">adjust</i> Sell R$</td>
-                        <td ng-if="row.status == 2 && row.coin_pair == flagBTC">Aberta</td>
-                        <td ng-if="row.status == 3 && row.coin_pair == flagBTC">Cancelada</td>
-                        <td ng-if="row.status == 4 && row.coin_pair == flagBTC">Concluída</td>
-                        <td ng-if="row.coin_pair == flagBTC">{{row.quantity}}</td>
-                        <td ng-if="row.coin_pair == flagBTC">{{row.limit_price}}</td>
-                        <td ng-if="row.coin_pair == flagBTC">{{row.fee}}</td>
-                        <td ng-if="row.coin_pair == flagBTC && row.order_type == 2">R$ {{row.executed_quantity * row.limit_price - row.fee}}</td>
-                        <td ng-if="row.coin_pair == flagBTC && row.order_type == 1">BTC {{row.executed_quantity - row.fee}}</td>
+                        <td ng-if="row.order_type == 1"><i class="material-icons compra-seta">arrow_upward</i> Buy BTC</td>
+                        <td ng-if="row.order_type == 2"><i class="material-icons venda-bola">adjust</i> Sell R$</td>
+                        <td ng-if="row.status == 2">Aberta</td>
+                        <td ng-if="row.status == 3">Cancelada</td>
+                        <td ng-if="row.status == 4">Concluída</td>
+                        <td>{{row.quantity}}</td>
+                        <td>{{row.limit_price}}</td>
+                        <td>{{row.fee}}</td>
+                        <td ng-if="row.order_type == 2">R$ {{row.executed_quantity * row.limit_price - row.fee}}</td>
+                        <td ng-if="row.order_type == 1">BTC {{row.executed_quantity - row.fee}}</td>
                       </tr>
                   </table>
                 </div>

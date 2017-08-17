@@ -31,8 +31,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.table2 = false;
   $scope.tableTabAct1 = "tabs-select-ativo";
   $scope.tableTabAct2 = "";
-  $scope.flagLTC = "BRLLTC"
-  $scope.flagBTC = "BRLBTC";
   $scope.compraMDLTC = true;
   $scope.compraMDBTC = false;
   $scope.vendaMDLTC = true;
@@ -123,6 +121,8 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       function (data) {
         $scope.tapiID = data.item.tapi_id;
         $scope.secret = data.item.secret;
+        $scope.useronLTC = true;
+        $scope.useronBTC = true;
         $scope.logado = true;
         $scope.modalLogin = "modal-logado"
         $scope.usrInfo();
@@ -157,15 +157,13 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
                                   date.getHours()+":"+
                                   date.getMinutes();
       $scope.qtdRSUser = response.data.response_data.balance.brl.available;
-      $scope.qtdLTCUser = response.data.response_data.balance.ltc.available;
-      $scope.mostraQtdLTCUser = "LTC "+$scope.qtdLTCUser;
-      $scope.qtdBTCUser = response.data.response_data.balance.btc.available;
-      $scope.mostraQtdBTCUser = "BTC "+$scope.qtdBTCUser;
-      $scope.retRSUser = response.data.response_data.withdrawal_limits.brl.available;
-      $scope.retLTCUser = response.data.response_data.withdrawal_limits.ltc.available;
-      $scope.retBTCUser = response.data.response_data.withdrawal_limits.btc.available;
-      $scope.useronLTC = true;
-      $scope.useronBTC = true;
+			$scope.qtdLTCUser = response.data.response_data.balance.ltc.available;
+			$scope.mostraQtdLTCUser = $filter('number')(($scope.qtdLTCUser), 4);
+			$scope.qtdBTCUser = response.data.response_data.balance.btc.available;
+			$scope.mostraQtdBTCUser = $filter('number')(($scope.qtdBTCUser), 4);
+			$scope.retRSUser = response.data.response_data.withdrawal_limits.brl.available;
+			$scope.retLTCUser = response.data.response_data.withdrawal_limits.ltc.available;
+			$scope.retBTCUser = response.data.response_data.withdrawal_limits.btc.available;
     })
   }
 
