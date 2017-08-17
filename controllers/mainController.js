@@ -26,6 +26,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.tab2 = false;
   $scope.tab3 = false;
   $scope.tab4 = false;
+  $scope.tab5 = false;
   $scope.table1 = true;
   $scope.table2 = false;
   $scope.tableTabAct1 = "tabs-select-ativo";
@@ -55,16 +56,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     }
   });
 
-  /*
-  if (!onlineStart) {
-    $scope.loading = false;
-    $('#modalOnline').modal('open', {dismissible: false});
-    setTimeout(function () {
-      $('#modalOnline').modal('close');
-      $route.reload();
-    }, 60000);
-  }*/
-
   $scope.login = function () {
     $scope.tapiIDInp = document.getElementById('user').value;
     $scope.secretInp = document.getElementById('password').value;
@@ -72,7 +63,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     var tapi_nonce = dateTime.getTime();
     var url = "/tapi/v3/?tapi_method=get_account_info&tapi_nonce="+tapi_nonce;
     var encrypttext = $crypthmac.encrypt(url, $scope.secretInp);
-    console.log(encrypttext);
 
     $http({
       method: 'POST',
@@ -93,7 +83,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         "tapi_nonce" : tapi_nonce,
       }
     }).then(function successCallback(response) {
-        console.log(response);
         var novoDado = {};
         novoDado["tapi_id"] = $scope.tapiIDInp;
         novoDado["secret"] = $scope.secretInp;
@@ -136,11 +125,9 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.secret = data.item.secret;
         $scope.logado = true;
         $scope.modalLogin = "modal-logado"
-        console.log($scope.tapiID);
         $scope.usrInfo();
         $scope.ordemInfoLTC();
         $scope.ordemInfoBTC();
-        console.log(data);
       }
     );
   });
@@ -149,9 +136,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     var dateTime = new Date();
     var tapi_nonce = dateTime.getTime();
     var url = "/tapi/v3/?tapi_method=get_account_info&tapi_nonce="+tapi_nonce;
-    console.log($scope.tapiID);
     var encrypttext = $crypthmac.encrypt(url, $scope.secret);
-    console.log(encrypttext);
 
     $http({
       method: 'POST',
@@ -188,9 +173,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     var dateTime = new Date();
     var tapi_nonce = dateTime.getTime();
     var url = "/tapi/v3/?tapi_method=list_orders&tapi_nonce="+tapi_nonce+"&coin_pair=BRLLTC&has_fills=true";
-    console.log($scope.tapiID);
     var encrypttext = $crypthmac.encrypt(url, $scope.secret);
-    console.log(encrypttext);
 
     $http({
       method: 'POST',
@@ -218,9 +201,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     var dateTime = new Date();
     var tapi_nonce = dateTime.getTime();
     var url = "/tapi/v3/?tapi_method=list_orders&tapi_nonce="+tapi_nonce+"&coin_pair=BRLBTC&has_fills=true";
-    console.log($scope.tapiID);
     var encrypttext = $crypthmac.encrypt(url, $scope.secret);
-    console.log(encrypttext);
 
     $http({
       method: 'POST',
@@ -234,7 +215,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       },
       data:{'tapi_method': 'list_orders','tapi_nonce': tapi_nonce,'coin_pair': 'BRLBTC','has_fills': true}
     }).then(function successCallback(response) {
-      console.log(response);
       var date = new Date(response.data.server_unix_timestamp*1000);
       $scope.dataAtualizacaoOrdemInfo = "Atualizado em: "+
                                   nomeMeses[date.getMonth()]+" "+
@@ -246,7 +226,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   }
 
   $scope.compraMercado = function () {
-    console.log("Comecei a Comprar");
     var dateTime = new Date();
     var tapi_nonce = dateTime.getTime();
     if($scope.compraMDLTC){
@@ -259,9 +238,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       var limit_price = $scope.mediaParaCompraBTCNum.toFixed(5);
     }
     var url = "/tapi/v3/?tapi_method=place_buy_order&tapi_nonce="+tapi_nonce+"&coin_pair="+coin_pair+"&quantity="+quantity+"&limit_price="+limit_price;
-    console.log("Setei as variaveis:"+coin_pair+quantity+" -- "+limit_price);
     var encrypttext = $crypthmac.encrypt(url, $scope.secret);
-    console.log(encrypttext);
 
     $http({
       method: 'POST',
@@ -299,7 +276,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.vendaMercado = function () {
     var dateTime = new Date();
     var tapi_nonce = dateTime.getTime();
-    console.log("Comecei a Comprar");
 
     if($scope.vendaMDLTC){
       var coin_pair = "BRLLTC";
@@ -312,8 +288,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     }
     var url = "/tapi/v3/?tapi_method=place_sell_order&tapi_nonce="+tapi_nonce+"&coin_pair="+coin_pair+"&quantity="+quantity+"&limit_price="+limit_price;
     var encrypttext = $crypthmac.encrypt(url, $scope.secret);
-    console.log("Setei as variaveis:"+coin_pair+quantity+" -- "+limit_price);
-    console.log(encrypttext);
 
     $http({
       method: 'POST',
@@ -327,7 +301,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       },
       data:{'tapi_method': 'place_sell_order','tapi_nonce': tapi_nonce,'coin_pair': coin_pair,'quantity': quantity, 'limit_price': limit_price}
     }).then(function successCallback(response) {
-      console.log(response);
       if(response.data.status_code != 100){
         if(response.data.status_code == 206){
           Materialize.toast("Valor não permitido", 5000, 'toast-falha')
@@ -366,6 +339,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     $scope.tab2 = false;
     $scope.tab3 = false;
     $scope.tab4 = false;
+    $scope.tab5 = false;
   }
 
   $scope.transition2 = function () {
@@ -373,6 +347,31 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     $scope.tab2 = true;
     $scope.tab3 = false;
     $scope.tab4 = false;
+    $scope.tab5 = false;
+  }
+
+  $scope.transition3 = function () {
+    $scope.tab1 = false;
+    $scope.tab2 = false;
+    $scope.tab3 = true;
+    $scope.tab4 = false;
+    $scope.tab5 = false;
+  }
+
+  $scope.transition4 = function () {
+    $scope.tab1 = false;
+    $scope.tab2 = false;
+    $scope.tab3 = false;
+    $scope.tab4 = true;
+    $scope.tab5 = false;
+  }
+
+  $scope.transition5 = function () {
+    $scope.tab1 = false;
+    $scope.tab2 = false;
+    $scope.tab3 = false;
+    $scope.tab4 = false;
+    $scope.tab5 = true;
   }
 
   $scope.tableOrdem1 = function () {
@@ -387,19 +386,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     $scope.table2 = true;
     $scope.tableTabAct1 = "";
     $scope.tableTabAct2 = "tabs-select-ativo";
-  }
-
-  $scope.transition3 = function () {
-    $scope.tab1 = false;
-    $scope.tab2 = false;
-    $scope.tab3 = true;
-    $scope.tab4 = false;
-  }
-  $scope.transition4 = function () {
-    $scope.tab1 = false;
-    $scope.tab2 = false;
-    $scope.tab3 = false;
-    $scope.tab4 = true;
   }
 
   $scope.compraCheckBoxBTC = function () {
@@ -505,13 +491,11 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       }
 
       $scope.grafico = function() {
-        console.log("Iniciando Grafico");
         Chart.defaults.global.defaultFontColor = 'white';
         Chart.defaults.global.elements.line.borderWidth = 5;
         Chart.defaults.global.colors = ['rgba(0,201,126,0.2)','rgba(255,0,0,0.2)','rgba(0,153,255,0.2)'];
         $scope.labels1 = []; $scope.compra = []; $scope.venda = []; $scope.media = [];
         $scope.labels2 = []; $scope.compraBTC = []; $scope.vendaBTC = []; $scope.mediaBTC = [];
-        console.log("configurado");
         for (var i in $scope.arrayLTC) {
           $scope.labels1.push($scope.arrayLTC[i].data);
           $scope.compra.push($scope.arrayLTC[i].buy);
@@ -519,7 +503,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
           $scope.media.push(($scope.arrayLTC[i].buy + $scope.arrayLTC[i].sell)/2);
           $scope.data1 = [$scope.compra, $scope.venda, $scope.media];
         }
-        console.log("setado1");
         for (var i in $scope.arrayBTC) {
           $scope.labels2.push($scope.arrayBTC[i].data);
           $scope.compraBTC.push($scope.arrayBTC[i].buy);
@@ -527,7 +510,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
           $scope.mediaBTC.push(($scope.arrayBTC[i].buy + $scope.arrayBTC[i].sell)/2);
           $scope.data2 = [$scope.compraBTC, $scope.vendaBTC, $scope.mediaBTC];
         }
-        console.log("setado2");
         $scope.series = ['Valor Compra', 'Valor Venda', 'Valor Média'];
         $scope.onClick = function (points, evt) {
           console.log(points, evt);
@@ -537,7 +519,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.options = {scales: {yAxes: [{id: 'y-axis-1', type: 'linear', display: true, position: 'left'}]}};
       }
 
-      if ($scope.grafLTCInit) {
+      $scope.dadosLTC = function () {
         var date = new Date();
         $scope.dataAtualizacaoLTC = "Atualizado em: "+
                                     nomeMeses[date.getMonth()]+" "+
@@ -573,17 +555,9 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.porcentagem = "("+$filter('number')((porcentagem), 2)+"%)";
         $scope.mediaParaCompra = "R$ "+$filter('limitTo')(($scope.mediaParaCompra), 8)
         $scope.grafLTCInit = false;
-      }else{
-        firebase.database().ref('/dadosLTC').limitToLast(1).once('value').then(function(snapshot) {
-          var key = snapshot.val();
-          for (var obj in key) {
-            $scope.arrayLTC.shift();
-            $scope.arrayLTC.push(key[obj]);
-          }
-        });
       }
 
-      if ($scope.grafBTCInit) {
+      $scope.dadosBTC = function () {
         var date = new Date();
         $scope.dataAtualizacaoBTC = "Atualizado em: "+
                                     nomeMeses[date.getMonth()]+" "+
@@ -619,6 +593,23 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.porcentagemBTC = "("+$filter('number')((porcentagem), 2)+"%)";
         $scope.mediaParaCompraBTC = "R$ "+$filter('limitTo')(($scope.mediaParaCompraBTC), 8)
         $scope.grafBTCInit = false;
+      }
+
+      if ($scope.grafLTCInit) {
+        $scope.dadosLTC();
+      }else{
+        firebase.database().ref('/dadosLTC').limitToLast(1).once('value').then(function(snapshot) {
+          var key = snapshot.val();
+          for (var obj in key) {
+            $scope.arrayLTC.shift();
+            $scope.arrayLTC.push(key[obj]);
+          }
+          $scope.dadosLTC();
+        });
+      }
+
+      if ($scope.grafBTCInit) {
+        $scope.dadosBTC();
       }else{
         firebase.database().ref('/dadosBTC').limitToLast(1).once('value').then(function(snapshot) {
           var key = snapshot.val();
@@ -626,6 +617,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
             $scope.arrayBTC.shift();
             $scope.arrayBTC.push(key[obj]);
           }
+          $scope.dadosBTC();
         });
       }
 

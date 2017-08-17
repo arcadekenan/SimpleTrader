@@ -59,11 +59,11 @@
         </div>
         <div ng-if="useronLTC">
           <div class="row">
-            <div class="col s3 text-cinza text-padrao"><p>Saldo</p></div>
+            <div class="col s3 text-cinza text-padrao"><p>Moeda</p></div>
             <div class="col s6 text-padrao"><p>{{mostraQtdLTCUser}}</p></div>
           </div>
           <div class="row">
-            <div class="col s4 text-cinza text-padrao"><p>Estado Atual</p></div>
+            <div class="col s4 text-cinza text-padrao"><p>Saldo</p></div>
             <div class="col s6 text-padrao fs18"><p>{{estadoReaisLTC}}</p></div>
           </div>
         </div>
@@ -100,11 +100,11 @@
         </div>
         <div ng-if="useronBTC">
           <div class="row">
-            <div class="col s3 text-cinza text-padrao"><p>Saldo</p></div>
+            <div class="col s3 text-cinza text-padrao"><p>Moeda</p></div>
             <div class="col s6 text-padrao"><p>{{mostraQtdBTCUser}}</p></div>
           </div>
           <div class="row">
-            <div class="col s4 text-cinza text-padrao"><p>Estado Atual</p></div>
+            <div class="col s4 text-cinza text-padrao"><p>Saldo</p></div>
             <div class="col s6 text-padrao fs18"><p>{{estadoReaisBTC}}</p></div>
           </div>
         </div>
@@ -117,45 +117,10 @@
   </div>
 
   <div class="fixed-action-btn horizontal">
-    <a class="btn-floating btn-large info-fButton">
-      <i class="material-icons icon-large">menu</i>
-    </a>
-    <ul>
-      <li><a data-target="modal1" class="btn-floating waves-effect waves-light button-color-gray"><i class="material-icons">info</i></a></li>
-      <li><a class="btn-floating waves-effect waves-light button-color-blue"><i class="material-icons">more_horiz</i></a></li>
-      <li><a data-target="modal2" class="btn-floating waves-effect waves-light button-color-green"><i class="material-icons">account_circle</i></a></li>
-    </ul>
+    <a data-target="modal2" class="btn-floating waves-effect waves-light btn-large info-fButton"><i class="material-icons icon-large">account_circle</i></a>
   </div>
 
   <!-- Modal Structure -->
-  <div id="modal1" class="modal modal-fixed-footer modal-info html-index">
-      <div class="card horizontal card-com-margem card-main-info">
-        <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" src="imgs/SimpleTraderLogoSemBorda.png">
-        </div>
-        <div class="card-content">
-          <span class="card-title activator text-darken-4 text-branco brand-logo fs22">SimpleTrader<i class="material-icons right">more_vert</i></span>
-          <ul>
-            <p class="text-branco">Desenvolvido com:</p><br>
-            <li class="text-branco">Electron v1.6.2</li>
-            <li class="text-branco">AngularJS v1.6.4</li>
-            <li class="text-branco">AngularSqlite v0.1.4</li>
-          </ul>
-
-        </div>
-        <div class="card-reveal card-main-info-imp">
-          <span class="card-title text-darken-4 text-branco brand-logo">SimpleTrader<i class="material-icons right">close</i></span>
-          <ul>
-            <li class="text-branco">Autor: Davi Bispo</li>
-            <li class="text-branco">API de dados: MercadoBitCoin</li>
-            <li class="text-branco">Versão: {{versaoST}}</li>
-          </ul>
-        </div>
-      </div>
-    <div class="modal-footer card-main-info-imp">
-      <a class="modal-action text-branco modal-close waves-effect waves-green btn-flat">Ok</a>
-    </div>
-  </div>
   <div id="modal2" ng-class="modalLogin" class="modal modal-fixed-footer html-index">
     <div class="row">
       <form class="col s12" ng-if="!logado">
@@ -209,6 +174,9 @@
               </div>
               <div class="row row-margin-bottom-10">
                 <button class="btn btn-logado waves-light" ng-click="transition4()">Venda</button>
+              </div>
+              <div class="row row-margin-bottom-10">
+                <button class="btn btn-logado waves-light" ng-click="transition5()">Sobre</button>
               </div>
               <div class="row row-margin-bottom-10">
                 <button class="btn btn-logado waves-light" ng-click="logoff()" name="action">Log Out</button>
@@ -442,6 +410,31 @@
                       <span class="text-cinza text-padrao fs12">Comissão: 0,70% (na Moeda Selecionada)</span><br>
                     </div>
                   </form>
+                </div>
+              </div>
+            </div>
+            <div id="infoConta" ng-if="tab5">
+              <div class="card-content white-text">
+                <span class="card-title text-cinza margin-zero">Sobre</span>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <div class="text-align-center">
+                    <img src="imgs/SimpleTraderLogoSemBorda.png" width="186px" height="186px">
+                  </div>
+                </div>
+                <div class="col s6">
+                  <div class="card-content white-text text-align-center">
+                    <span class="card-title activator text-darken-4 text-branco brand-logo fs22">SimpleTrader</span>
+                    <ul>
+                      <li class="text-branco">Autor: Davi Bispo</li>
+                      <li class="text-branco">API de dados: MercadoBitCoin</li>
+                      <li class="text-branco">Versão: {{versaoST}}</li>
+                      <li class="text-branco">Electron v1.6.2</li>
+                      <li class="text-branco">AngularJS v1.6.4</li>
+                      <li class="text-branco">AngularSqlite v0.1.4</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
