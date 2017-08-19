@@ -9,7 +9,9 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     messagingSenderId: "320522901784"
   };
 
-  firebase.initializeApp(config);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+  }
 
   var nomeMeses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
   var pjson = require('./package.json');
