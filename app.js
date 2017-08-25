@@ -1,4 +1,4 @@
-var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js", "angular-hmac-sha512", "firebase"]);
+var app = angular.module("index", ["ngRoute", "ngSQLite", "chart.js", "angular-hmac-sha512", "firebase", "angular-carousel", "ngTouch"]);
 
   app.constant('DB_CONFIG', {
       usrcarteira: {

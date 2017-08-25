@@ -1,7 +1,7 @@
 <div class="" ng-controller="mainController">
   <div class="div-loading" ng-if="loading">
     <div class="div-loading-content">
-      <div class="div-logo">
+      <div class="div-logo unselectable">
         <img src="imgs/SimpleTraderLogoSemBorda.png" width="186px" height="186px" alt="">
       </div>
       <div class="preloader-wrapper bigSimple active">
@@ -15,7 +15,7 @@
         </div>
       </div>
       </div>
-      <div class="white-text fs2-1rem carregado-shadow">
+      <div class="white-text fs2-1rem carregado-shadow unselectable">
         LOADING...
       </div>
     </div>
@@ -29,140 +29,250 @@
     </div>
   </nav>
   <div class="row">
-    <div class="col s12 m4">
+    <div class="col s12 m6">
       <div class="card card-main-info darken-1">
         <div class="card-content white-text">
-          <span class="card-title text-cinza margin-zero">LiteCoin</span>
-          <p class="text-cinza text-padrao fs16">{{dataAtualizacaoLTC}}</p>
-          <span class="card-title margin-zero">{{mediaParaCompra}}</span>
-          <span class="text-padrao fs24" ng-style="corDiferenca">{{diferenca}}</span>
-          <span class="text-padrao fs24" ng-style="corDiferenca">{{porcentagem}}</span>
-        <canvas id="line" class="chart chart-line" chart-data="data1"
-        chart-labels="labels1" chart-series="series" chart-options="options"
-        chart-dataset-override="datasetOverride" chart-click="onClick"
-        chart-colors="colors">
-        </canvas>
-        <div class="dados-subGraf">
-          <div class="row">
-            <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
-            <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoLTC}}</p></div>
-            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
-            <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoLTC}}</p></div>
-          </div>
-          <div class="row">
-            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
-            <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaLTC}}</p></div>
-            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
-            <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoLTC}}</p></div>
-          </div>
+          <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-controls-allow-loop class="image carousel-ang white-text margin-zero">
+            <li class="white-text unselectable">
+              <div class="card-com-margem">
+                <span class="card-title text-cinza margin-zero">LiteCoin</span>
+                <p class="text-cinza text-padrao fs16">{{dataAtualizacaoLTC}}</p>
+                <span class="card-title margin-zero">{{mediaParaCompra}}</span>
+                <div class="margin-row-under-graf">
+                  <span class="text-padrao fs24" ng-style="corDiferenca">{{diferenca}}</span>
+                  <span class="text-padrao fs24" ng-style="corDiferenca">{{porcentagem}}</span>
+                </div>
+                <canvas id="line" class="chart chart-line" chart-data="data1"
+                  chart-labels="labels1" chart-series="series" chart-options="options"
+                  chart-dataset-override="datasetOverride" chart-click="onClick"
+                  chart-colors="colors">
+                </canvas>
+                <div class="dados-subGraf">
+                  <div class="row margin-row-under-graf">
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoLTC}}</p></div>
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoLTC}}</p></div>
+                  </div>
+                  <div class="row margin-row-under-graf">
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaLTC}}</p></div>
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoLTC}}</p></div>
+                  </div>
+                </div>
+                <div ng-if="useronLTC">
+                  <div class="row margin-row-under-graf">
+                    <div class="col s3 text-cinza text-padrao"><p>Moeda</p></div>
+                    <div class="col s6 text-padrao"><p>{{mostraQtdLTCUser}}</p></div>
+                  </div>
+                  <div class="row margin-row-under-graf">
+                    <div class="col s4 text-cinza text-padrao"><p>Saldo</p></div>
+                    <div class="col s6 text-padrao fs18"><p>{{estadoReaisLTC}}</p></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="white-text unselectable">
+              <div class="card-com-margem">
+                <span class="card-title text-cinza margin-zero">BitCoin</span>
+                <p class="text-cinza text-padrao fs16">{{dataAtualizacaoBTC}}</p>
+                <span class="card-title margin-zero">{{mediaParaCompraBTC}}</span>
+                <div class="margin-row-under-graf">
+                  <span class="text-padrao fs24" ng-style="corDiferencaBTC">{{diferencaBTC}}</span>
+                  <span class="text-padrao fs24" ng-style="corDiferencaBTC">{{porcentagemBTC}}</span>
+                </div>
+                <canvas id="line2" class="chart chart-line" chart-data="data2"
+                  chart-labels="labels2" chart-series="series" chart-options="options"
+                  chart-dataset-override="datasetOverride" chart-click="onClick"
+                  chart-colors="colors">
+                </canvas>
+                <div class="dados-subGraf">
+                  <div class="row margin-row-under-graf">
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoBTC}}</p></div>
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoBTC}}</p></div>
+                  </div>
+                  <div class="row margin-row-under-graf">
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaBTC}}</p></div>
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoBTC}}</p></div>
+                  </div>
+                </div>
+                <div ng-if="useronBTC">
+                  <div class="row margin-row-under-graf">
+                    <div class="col s3 text-cinza text-padrao"><p>Moeda</p></div>
+                    <div class="col s6 text-padrao"><p>{{mostraQtdBTCUser}}</p></div>
+                  </div>
+                  <div class="row margin-row-under-graf">
+                    <div class="col s4 text-cinza text-padrao"><p>Saldo</p></div>
+                    <div class="col s6 text-padrao fs18"><p>{{estadoReaisBTC}}</p></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="white-text unselectable">
+              <div class="card-com-margem">
+                <span class="card-title text-cinza margin-zero">BitCoinCash</span>
+                <p class="text-cinza text-padrao fs16">{{dataAtualizacaoBCH}}</p>
+                <span class="card-title margin-zero">{{mediaParaCompraBCH}}</span>
+                <div class="margin-row-under-graf">
+                  <span class="text-padrao fs24" ng-style="corDiferencaBCH">{{diferencaBCH}}</span>
+                  <span class="text-padrao fs24" ng-style="corDiferencaBCH">{{porcentagemBCH}}</span>
+                </div>
+                <canvas id="line3" class="chart chart-line" chart-data="data3"
+                  chart-labels="labels3" chart-series="series" chart-options="options"
+                  chart-dataset-override="datasetOverride" chart-click="onClick"
+                  chart-colors="colors">
+                </canvas>
+                <div class="dados-subGraf">
+                  <div class="row margin-row-under-graf">
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoBCH}}</p></div>
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoBCH}}</p></div>
+                  </div>
+                  <div class="row margin-row-under-graf">
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaBCH}}</p></div>
+                    <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
+                    <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoBCH}}</p></div>
+                  </div>
+                </div>
+                <div ng-if="useronBCH">
+                  <div class="row margin-row-under-graf">
+                    <div class="col s3 text-cinza text-padrao"><p>Moeda</p></div>
+                    <div class="col s6 text-padrao"><p>{{mostraQtdBCHUser}}</p></div>
+                  </div>
+                  <div class="row margin-row-under-graf">
+                    <div class="col s4 text-cinza text-padrao"><p>Saldo</p></div>
+                    <div class="col s6 text-padrao fs18"><p>{{estadoReaisBCH}}</p></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div rn-carousel-indicators ng-if="slides" slides="slides" rn-carousel-index="carouselIndex" class="text-align-center fs24 indicators-ang unselectable"></div>
         </div>
-        <div ng-if="useronLTC">
-          <div class="row">
-            <div class="col s3 text-cinza text-padrao"><p>Moeda</p></div>
-            <div class="col s6 text-padrao"><p>{{mostraQtdLTCUser}}</p></div>
-          </div>
-          <div class="row">
-            <div class="col s4 text-cinza text-padrao"><p>Saldo</p></div>
-            <div class="col s6 text-padrao fs18"><p>{{estadoReaisLTC}}</p></div>
+      </div>
+    </div>
+      <div class="col s12 m6">
+        <div class="card card-main-info darken-1">
+          <div class="card-com-margem">
+            <div class="card-content white-text">
+              <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-controls-allow-loop class="image carousel-ang-orderbook white-text margin-zero">
+                <li>
+                  <span class="card-title text-cinza margin-zero">Pedidos</span>
+                  <div class="row row-margin-bottom-0 text-align-center">
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Preço</p></div>
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Qtd. Moedas</p></div>
+                  </div>
+                  <div id="scroll-pane" style="width:100%; height:28vh; overflow-y:scroll; overflow-x:hidden; margin-bottom: 10px;">
+                    <ul class="collection ul-orderbook">
+                      <li class="collection-item collection-itens-orderbook" ng-repeat="row in orderBookLTCAsks">
+                        <div class="row row-margin-bottom-0">
+                          <div class="col s6"><p>{{row.preco}}</p></div>
+                          <div class="col s6"><p>{{row.qtd}}</p></div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <span class="card-title text-cinza margin-zero">Lances</span>
+                  <div class="row row-margin-bottom-0 text-align-center">
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Preço</p></div>
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Qtd. Moedas</p></div>
+                  </div>
+                  <div id="scroll-pane" style="width:100%; height:28vh; overflow-y:scroll; overflow-x:hidden;">
+                    <ul class="collection ul-orderbook">
+                      <li class="collection-item collection-itens-orderbook" ng-repeat="row in orderBookLTCBids">
+                        <div class="row row-margin-bottom-0">
+                          <div class="col s6"><p>{{row.preco}}</p></div>
+                          <div class="col s6"><p>{{row.qtd}}</p></div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <span class="card-title text-cinza margin-zero">Pedidos</span>
+                  <div class="row row-margin-bottom-0 text-align-center">
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Preço</p></div>
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Qtd. Moedas</p></div>
+                  </div>
+                  <div id="scroll-pane" style="width:100%; height:28vh; overflow-y:scroll; overflow-x:hidden; margin-bottom: 10px;">
+                    <ul class="collection ul-orderbook">
+                      <li class="collection-item collection-itens-orderbook" ng-repeat="row in orderBookBTCAsks">
+                        <div class="row row-margin-bottom-0">
+                          <div class="col s6"><p>{{row.preco}}</p></div>
+                          <div class="col s6"><p>{{row.qtd}}</p></div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <span class="card-title text-cinza margin-zero">Lances</span>
+                  <div class="row row-margin-bottom-0 text-align-center">
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Preço</p></div>
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Qtd. Moedas</p></div>
+                  </div>
+                  <div id="scroll-pane" style="width:100%; height:28vh; overflow-y:scroll; overflow-x:hidden;">
+                    <ul class="collection ul-orderbook">
+                      <li class="collection-item collection-itens-orderbook" ng-repeat="row in orderBookBTCBids">
+                        <div class="row row-margin-bottom-0">
+                          <div class="col s6"><p>{{row.preco}}</p></div>
+                          <div class="col s6"><p>{{row.qtd}}</p></div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <span class="card-title text-cinza margin-zero">Pedidos</span>
+                  <div class="row row-margin-bottom-0 text-align-center">
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Preço</p></div>
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Qtd. Moedas</p></div>
+                  </div>
+                  <div id="scroll-pane" style="width:100%; height:28vh; overflow-y:scroll; overflow-x:hidden; margin-bottom: 10px;">
+                    <ul class="collection ul-orderbook">
+                      <li class="collection-item collection-itens-orderbook" ng-repeat="row in orderBookBCHAsks">
+                        <div class="row row-margin-bottom-0">
+                          <div class="col s6"><p>{{row.preco}}</p></div>
+                          <div class="col s6"><p>{{row.qtd}}</p></div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <span class="card-title text-cinza margin-zero">Lances</span>
+                  <div class="row row-margin-bottom-0 text-align-center">
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Preço</p></div>
+                    <div class="col s6"><p class="text-cinza text-padrao fs16">Qtd. Moedas</p></div>
+                  </div>
+                  <div id="scroll-pane" style="width:100%; height:28vh; overflow-y:scroll; overflow-x:hidden;">
+                    <ul class="collection ul-orderbook">
+                      <li class="collection-item collection-itens-orderbook" ng-repeat="row in orderBookBCHBids">
+                        <div class="row row-margin-bottom-0">
+                          <div class="col s6"><p>{{row.preco}}</p></div>
+                          <div class="col s6"><p>{{row.qtd}}</p></div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
-    <div class="col s12 m4">
-      <div class="card card-main-info darken-1">
-        <div class="card-content white-text">
-          <span class="card-title text-cinza margin-zero">BitCoin</span>
-          <p class="text-cinza text-padrao fs16">{{dataAtualizacaoBTC}}</p>
-          <span class="card-title margin-zero">{{mediaParaCompraBTC}}</span>
-          <span class="text-padrao fs24" ng-style="corDiferencaBTC">{{diferencaBTC}}</span>
-          <span class="text-padrao fs24" ng-style="corDiferencaBTC">{{porcentagemBTC}}</span>
-        <canvas id="line2" class="chart chart-line" chart-data="data2"
-        chart-labels="labels2" chart-series="series" chart-options="options"
-        chart-dataset-override="datasetOverride" chart-click="onClick"
-        chart-colors="colors">
-        </canvas>
-        <div class="dados-subGraf">
-          <div class="row">
-            <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
-            <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoBTC}}</p></div>
-            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
-            <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoBTC}}</p></div>
-          </div>
-          <div class="row">
-            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
-            <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaBTC}}</p></div>
-            <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
-            <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoBTC}}</p></div>
-          </div>
-        </div>
-        <div ng-if="useronBTC">
-          <div class="row">
-            <div class="col s3 text-cinza text-padrao"><p>Moeda</p></div>
-            <div class="col s6 text-padrao"><p>{{mostraQtdBTCUser}}</p></div>
-          </div>
-          <div class="row">
-            <div class="col s4 text-cinza text-padrao"><p>Saldo</p></div>
-            <div class="col s6 text-padrao fs18"><p>{{estadoReaisBTC}}</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-    <div class="col s12 m4">
-      <div class="card card-main-info darken-1">
-        <div class="card-content white-text">
-          <span class="card-title text-cinza margin-zero">BitCoinCash</span>
-          <p class="text-cinza text-padrao fs16">{{dataAtualizacaoBCH}}</p>
-          <span class="card-title margin-zero">{{mediaParaCompraBCH}}</span>
-          <span class="text-padrao fs24" ng-style="corDiferencaBCH">{{diferencaBCH}}</span>
-          <span class="text-padrao fs24" ng-style="corDiferencaBCH">{{porcentagemBCH}}</span>
-          <canvas id="line3" class="chart chart-line" chart-data="data3"
-          chart-labels="labels3" chart-series="series" chart-options="options"
-          chart-dataset-override="datasetOverride" chart-click="onClick"
-          chart-colors="colors">
-          </canvas>
-          <div class="dados-subGraf">
-            <div class="row">
-              <div class="col s12 m3 l3 text-cinza text-padrao"><p>High</p></div>
-              <div class="col s12 m3 l3 text-padrao"><p>{{maiorNegociacaoBCH}}</p></div>
-              <div class="col s12 m3 l3 text-cinza text-padrao"><p>Low</p></div>
-              <div class="col s12 m3 l3 text-padrao"><p>{{menorNegociacaoBCH}}</p></div>
-            </div>
-            <div class="row">
-              <div class="col s12 m3 l3 text-cinza text-padrao"><p>Volume</p></div>
-              <div class="col s12 m3 l3 text-padrao"><p>{{volumeMoedaBCH}}</p></div>
-              <div class="col s12 m3 l3 text-cinza text-padrao"><p>Last</p></div>
-              <div class="col s12 m3 l3 text-padrao"><p>{{precoUltimoNegociadoBCH}}</p></div>
-            </div>
-          </div>
-          <div ng-if="useronBCH">
-            <div class="row">
-              <div class="col s3 text-cinza text-padrao"><p>Moeda</p></div>
-              <div class="col s6 text-padrao"><p>{{mostraQtdBCHUser}}</p></div>
-            </div>
-            <div class="row">
-              <div class="col s4 text-cinza text-padrao"><p>Saldo</p></div>
-              <div class="col s6 text-padrao fs18"><p>{{estadoReaisBCH}}</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="fixed-action-btn horizontal">
-  </div>
-
   <div class="fixed-action-btn horizontal">
     <a data-target="modal2" class="btn-floating waves-effect waves-light btn-large info-fButton"><i class="material-icons icon-large">account_circle</i></a>
   </div>
-
   <!-- Modal Structure -->
   <div id="modal2" ng-class="modalLogin" class="modal modal-fixed-footer html-index">
     <div class="row">
       <div class="col s3">
-        <div class="card card-main-info darken-1">
+        <div class="card card-main-info darken-1 row-margin-bottom-8">
           <div class="card-content white-text">
             <span class="card-title text-cinza margin-zero">Opções</span>
           </div>
@@ -270,6 +380,7 @@
                 <li class="tab col s3"><a ng-class="tableTabAct3" class="tabs-select-style waves-effect waves-light" ng-click="tableOrdem3()">BitCoinCash</a></li>
               </ul>
               <div ng-if="table1">
+                <div id="scroll-pane" style="width:100%; height:35vh; overflow-y:scroll; overflow-x:hidden;">
                 <table class="bordered">
                     <tr>
                       <th>Tipo Ordem</th>
@@ -279,21 +390,23 @@
                       <th>Taxa</th>
                       <th>Líquido</th>
                     </tr>
-                    <tr ng-repeat="row in listaOrdemLTC">
-                      <td ng-if="row.order_type == 1"><i class="material-icons compra-seta">arrow_upward</i> Buy LTC</td>
-                      <td ng-if="row.order_type == 2"><i class="material-icons venda-bola">adjust</i> Sell R$</td>
-                      <td ng-if="row.status == 2">Aberta</td>
-                      <td ng-if="row.status == 3">Cancelada</td>
-                      <td ng-if="row.status == 4">Concluída</td>
-                      <td>{{row.quantity}}</td>
-                      <td>{{row.limit_price}}</td>
-                      <td>{{row.fee}}</td>
-                      <td ng-if="row.order_type == 2">{{row.executed_quantity * row.limit_price - row.fee}}</td>
-                      <td ng-if="row.order_type == 1">{{row.executed_quantity - row.fee}}</td>
-                    </tr>
+                      <tr ng-repeat="row in listaOrdemLTC">
+                        <td ng-if="row.order_type == 1"><i class="material-icons compra-seta">arrow_upward</i> Buy LTC</td>
+                        <td ng-if="row.order_type == 2"><i class="material-icons venda-bola">adjust</i> Sell R$</td>
+                        <td ng-if="row.status == 2">Aberta</td>
+                        <td ng-if="row.status == 3">Cancelada</td>
+                        <td ng-if="row.status == 4">Concluída</td>
+                        <td>{{row.quantity}}</td>
+                        <td>{{row.limit_price}}</td>
+                        <td>{{row.fee}}</td>
+                        <td ng-if="row.order_type == 2">{{row.executed_quantity * row.limit_price - row.fee}}</td>
+                        <td ng-if="row.order_type == 1">{{row.executed_quantity - row.fee}}</td>
+                      </tr>
                   </table>
                 </div>
+                </div>
               <div ng-if="table2">
+                <div id="scroll-pane" style="width:100%; height:35vh; overflow-y:scroll; overflow-x:hidden;">
                 <table class="bordered">
                     <tr>
                       <th>Tipo Ordem</th>
@@ -316,8 +429,10 @@
                       <td ng-if="row.order_type == 1">BTC {{row.executed_quantity - row.fee}}</td>
                     </tr>
                 </table>
+                </div>
               </div>
               <div ng-if="table3">
+                <div id="scroll-pane" style="width:100%; height:35vh; overflow-y:scroll; overflow-x:hidden;">
                 <table class="bordered">
                     <tr>
                       <th>Tipo Ordem</th>
@@ -340,6 +455,7 @@
                       <td ng-if="row.order_type == 1">BCH {{row.executed_quantity - row.fee}}</td>
                     </tr>
                 </table>
+                </div>
               </div>
             </div>
           </div>

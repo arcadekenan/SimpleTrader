@@ -1,6 +1,6 @@
 {
   "name": "SimpleTrader",
-  "version": "1.2.0RC-2",
+  "version": "1.2.5RC-2",
   "description": "Uma Simples Aplicação Para Acompanhar Moedas Digitais",
   "main": "main.js",
   "scripts": {
@@ -19,9 +19,11 @@
   },
   "dependencies": {
     "angular": "^1.6.4",
+    "angular-carousel": "^1.1.0",
     "angular-chart.js": "^1.1.1",
     "angular-route": "^1.6.5",
     "angular-sqlite": "^0.1.0",
+    "angular-touch": "^1.6.6",
     "chart.js": "^2.6.0",
     "jquery": "^3.2.1",
     "materialize-css": "^0.99.0"

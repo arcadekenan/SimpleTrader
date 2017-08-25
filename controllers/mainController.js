@@ -49,6 +49,8 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
   $scope.arrayLTC = [];
   $scope.arrayBTC = [];
   $scope.arrayBCH = [];
+  $scope.slides = ["1","2","3"];
+  $scope.carouselIndex = 0;
 
   firebase.database().ref('/dadosLTC').limitToLast(15).once('value').then(function(snapshot) {
     var key = snapshot.val();
@@ -399,7 +401,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     $('select').material_select();
   });
 
-
   $scope.transition0 = function () {
     $scope.tab0 = true;
     $scope.tab1 = false;
@@ -637,21 +638,21 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
           $scope.labels1.push($scope.arrayLTC[i].data);
           $scope.compra.push($scope.arrayLTC[i].buy);
           $scope.venda.push($scope.arrayLTC[i].sell);
-          $scope.media.push((parseInt($scope.arrayLTC[i].buy) + parseInt($scope.arrayLTC[i].sell))/2);
+          $scope.media.push((parseFloat($scope.arrayLTC[i].buy) + parseFloat($scope.arrayLTC[i].sell))/2);
           $scope.data1 = [$scope.compra, $scope.venda, $scope.media];
         }
         for (var i in $scope.arrayBTC) {
           $scope.labels2.push($scope.arrayBTC[i].data);
           $scope.compraBTC.push($scope.arrayBTC[i].buy);
           $scope.vendaBTC.push($scope.arrayBTC[i].sell);
-          $scope.mediaBTC.push((parseInt($scope.arrayBTC[i].buy) + parseInt($scope.arrayBTC[i].sell))/2);
+          $scope.mediaBTC.push((parseFloat($scope.arrayBTC[i].buy) + parseFloat($scope.arrayBTC[i].sell))/2);
           $scope.data2 = [$scope.compraBTC, $scope.vendaBTC, $scope.mediaBTC];
         }
         for (var i in $scope.arrayBCH) {
           $scope.labels3.push($scope.arrayBCH[i].data);
           $scope.compraBCH.push($scope.arrayBCH[i].buy);
           $scope.vendaBCH.push($scope.arrayBCH[i].sell);
-          $scope.mediaBCH.push((parseInt($scope.arrayBCH[i].buy) + parseInt($scope.arrayBCH[i].sell))/2);
+          $scope.mediaBCH.push((parseFloat($scope.arrayBCH[i].buy) + parseFloat($scope.arrayBCH[i].sell))/2);
           $scope.data3 = [$scope.compraBCH, $scope.vendaBCH, $scope.mediaBCH];
         }
         $scope.series = ['Valor Compra', 'Valor Venda', 'Valor Média'];
@@ -677,8 +678,8 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.precoUltimoNegociadoLTC = $filter('number')(($scope.arrayLTC[14].last), 2)
         $scope.maiorValorCompraLTC = $scope.arrayLTC[14].buy;
         $scope.menorValorVendaLTC = $scope.arrayLTC[14].sell;
-        $scope.mediaParaCompra = (parseInt($scope.arrayLTC[14].buy) + parseInt($scope.arrayLTC[14].sell))/2;
-        $scope.mediaParaCompraPast = (parseInt($scope.arrayLTC[13].buy) + parseInt($scope.arrayLTC[13].sell))/2;
+        $scope.mediaParaCompra = (parseFloat($scope.arrayLTC[14].buy) + parseFloat($scope.arrayLTC[14].sell))/2;
+        $scope.mediaParaCompraPast = (parseFloat($scope.arrayLTC[13].buy) + parseFloat($scope.arrayLTC[13].sell))/2;
         $scope.mediaParaCompraNum = $scope.mediaParaCompra;
         if ($scope.logado) {
           var valorReais = $scope.mediaParaCompra * $scope.qtdLTCUser;
@@ -715,8 +716,8 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.precoUltimoNegociadoBTC = $filter('number')(($scope.arrayBTC[14].last), 2)
         $scope.maiorValorCompraBTC = $scope.arrayBTC[14].buy;
         $scope.menorValorVendaBTC = $scope.arrayBTC[14].sell;
-        $scope.mediaParaCompraBTC = (parseInt($scope.arrayBTC[14].buy) + parseInt($scope.arrayBTC[14].sell))/2;
-        $scope.mediaParaCompraBTCPast = (parseInt($scope.arrayBTC[13].buy) + parseInt($scope.arrayBTC[13].sell))/2;
+        $scope.mediaParaCompraBTC = (parseFloat($scope.arrayBTC[14].buy) + parseFloat($scope.arrayBTC[14].sell))/2;
+        $scope.mediaParaCompraBTCPast = (parseFloat($scope.arrayBTC[13].buy) + parseFloat($scope.arrayBTC[13].sell))/2;
 
         $scope.mediaParaCompraBTCNum = $scope.mediaParaCompraBTC;
         if ($scope.logado) {
@@ -754,8 +755,8 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
         $scope.precoUltimoNegociadoBCH = $filter('number')(($scope.arrayBCH[14].last), 2)
         $scope.maiorValorCompraBCH = $scope.arrayBCH[14].buy;
         $scope.menorValorVendaBCH = $scope.arrayBCH[14].sell;
-        $scope.mediaParaCompraBCH = (parseInt($scope.arrayBCH[14].buy) + parseInt($scope.arrayBCH[14].sell))/2;
-        $scope.mediaParaCompraBCHPast = (parseInt($scope.arrayBCH[13].buy) + parseInt($scope.arrayBCH[13].sell))/2;
+        $scope.mediaParaCompraBCH = (parseFloat($scope.arrayBCH[14].buy) + parseFloat($scope.arrayBCH[14].sell))/2;
+        $scope.mediaParaCompraBCHPast = (parseFloat($scope.arrayBCH[13].buy) + parseFloat($scope.arrayBCH[13].sell))/2;
         $scope.mediaParaCompraBCHNum = $scope.mediaParaCompraBCH;
         if ($scope.logado) {
           var valorReais = $scope.mediaParaCompraBCH * $scope.qtdBCHUser;
@@ -817,6 +818,48 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
           $scope.dadosBCH();
         });
       }
+
+      $http({
+        method: 'GET',
+        url: 'https://www.mercadobitcoin.net/api/LTC/orderbook/'
+      }).then(function successCallback(response) {
+        $scope.orderBookLTCAsks = [];
+        for (var i = 0; i < response.data.asks.length; i++) {
+          $scope.orderBookLTCAsks.push({'preco':$filter('number')((response.data.asks[i][0]), 4),'qtd':$filter('number')((response.data.asks[i][1]), 4)});
+        }
+        $scope.orderBookLTCBids = [];
+        for (var i = 0; i < response.data.bids.length; i++) {
+          $scope.orderBookLTCBids.push({'preco':$filter('number')((response.data.bids[i][0]), 4),'qtd':$filter('number')((response.data.bids[i][1]), 4)});
+        }
+      });
+
+      $http({
+        method: 'GET',
+        url: 'https://www.mercadobitcoin.net/api/BTC/orderbook/'
+      }).then(function successCallback(response) {
+        $scope.orderBookBTCAsks = [];
+        for (var i = 0; i < response.data.asks.length; i++) {
+          $scope.orderBookBTCAsks.push({'preco':$filter('number')((response.data.asks[i][0]), 4),'qtd':$filter('number')((response.data.asks[i][1]), 4)});
+        }
+        $scope.orderBookBTCBids = [];
+        for (var i = 0; i < response.data.bids.length; i++) {
+          $scope.orderBookBTCBids.push({'preco':$filter('number')((response.data.bids[i][0]), 4),'qtd':$filter('number')((response.data.bids[i][1]), 4)});
+        }
+      });
+
+      $http({
+        method: 'GET',
+        url: 'https://www.mercadobitcoin.net/api/BCH/orderbook/'
+      }).then(function successCallback(response) {
+        $scope.orderBookBCHAsks = [];
+        for (var i = 0; i < response.data.asks.length; i++) {
+          $scope.orderBookBCHAsks.push({'preco':$filter('number')((response.data.asks[i][0]), 4),'qtd':$filter('number')((response.data.asks[i][1]), 4)});
+        }
+        $scope.orderBookBCHBids = [];
+        for (var i = 0; i < response.data.bids.length; i++) {
+          $scope.orderBookBCHBids.push({'preco':$filter('number')((response.data.bids[i][0]), 4),'qtd':$filter('number')((response.data.bids[i][1]), 4)});
+        }
+      });
 
       $scope.grafico();
       $scope.loading = false;

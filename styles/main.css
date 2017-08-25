@@ -27,6 +27,48 @@
   margin-top: 20%;
 }
 
+.carousel-ang {
+  width: 100%;
+  height: 72vh !important;
+}
+
+.carousel-ang-orderbook {
+  width: 100%;
+  height: 76vh !important;
+}
+
+.collection-itens-orderbook{
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    margin-bottom: 5px !important;
+    text-align: center;
+    background-color: #252833 !important;
+    color: white;
+    border-bottom: none !important;
+}
+
+.ul-orderbook{
+  border: none;
+}
+
+.indicators-ang {
+  margin-top: 10px;
+  letter-spacing: 5px;
+  height: 15px;
+}
+
+.unselectable {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.cartao-dim{
+  background-color: #1F212C;
+}
+
 .text-cinza{
   color: #858587 !important;
 }
@@ -158,6 +200,10 @@
   margin-bottom: 5px !important;
 }
 
+.margin-row-under-graf{
+  margin-bottom: 10px;
+}
+
 .card-com-margem{
   margin-left: 2%;
   margin-right: 2%;
@@ -174,6 +220,10 @@
 
 .row-margin-bottom-10{
   margin-bottom: 10px;
+}
+
+.row-margin-bottom-8{
+  margin-bottom: 8px;
 }
 
 .row-margin-bottom-0{
