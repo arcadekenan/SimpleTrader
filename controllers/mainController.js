@@ -662,6 +662,7 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
 
         $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
         $scope.options = {scales: {yAxes: [{id: 'y-axis-1', type: 'linear', display: true, position: 'left'}]}};
+        $scope.loading = false;
       }
 
 
@@ -862,7 +863,6 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
       });
 
       $scope.grafico();
-      $scope.loading = false;
       $timeout(tick, $scope.tickExecucao); // reset the timer
   }
 
