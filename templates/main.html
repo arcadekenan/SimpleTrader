@@ -164,7 +164,7 @@
         <div class="card card-main-info darken-1">
           <div class="card-com-margem">
             <div class="card-content white-text">
-              <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-controls-allow-loop class="image carousel-ang-orderbook white-text margin-zero">
+              <ul id="orderbookLTC" rn-carousel rn-carousel-index="carouselIndex" rn-carousel-controls-allow-loop class="image carousel-ang-orderbook white-text margin-zero">
                 <li>
                   <span class="card-title text-cinza margin-zero">Pedidos</span>
                   <div class="row row-margin-bottom-0 text-align-center">
@@ -312,13 +312,13 @@
               </div>
               <div class="row row-inputs">
                 <div class="input-field col s12">
-                  <input id="user" type="text" class="validate text-branco fs16" ng-model="tapiIDInp">
+                  <input id="user" type="text" class="text-branco fs16" ng-model="tapiIDInp">
                   <label for="user">TAPI-ID</label>
                 </div>
               </div>
               <div class="row row-inputs">
                 <div class="input-field col s12">
-                  <input id="password" type="password" class="validate text-branco fs16" ng-model="secretInp">
+                  <input id="password" type="password" class="text-branco fs16" ng-model="secretInp">
                   <label for="password">SECRET</label>
                 </div>
               </div>
@@ -330,12 +330,12 @@
                 <div class="col s12 m4 l2"></div>
               </div>
               <div class="row padding-bottom-20">
-                <div class="col s12 m4 l1"></div>
-                <div class="col s12 m4 l10 text-align-center">
+                <div class="col s2"></div>
+                <div class="col s8 text-align-center">
                   <span class="text-cinza text-padrao fs12">Não tem uma conta ainda?</span><br>
                   <span class="text-cinza text-padrao fs12">Acesse MercadoBitCoin.com.br</span><br>
                 </div>
-                <div class="col s12 m4 l1"></div>
+                <div class="col s2"></div>
               </div>
           </div>
           <div id="infoConta" ng-if="tab1">
@@ -663,7 +663,7 @@
         </div>
         <div class="card-content text-align-center">
           <span class="card-title activator text-darken-4 text-branco brand-logo fs22">Internet Error</span>
-          <p class="text-cinza text-padrao fs16">Tentando Novamente em 60s</p>
+          <p class="text-cinza text-padrao fs16">Verifique sua Conexão</p>
         </div>
       </div>
       <div class="modal-footer card-main-info-imp">

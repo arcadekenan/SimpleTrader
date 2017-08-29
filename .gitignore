@@ -4,3 +4,5 @@ node_modules/
 \.DS_Store
 
 SimpleTrader-darwin-x64/
+
+release-builds/
