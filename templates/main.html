@@ -401,8 +401,8 @@
                         <td>{{row.quantity}}</td>
                         <td>{{row.limit_price}}</td>
                         <td>{{row.fee}}</td>
-                        <td ng-if="row.order_type == 2">{{row.executed_quantity * row.limit_price - row.fee}}</td>
-                        <td ng-if="row.order_type == 1">{{row.executed_quantity - row.fee}}</td>
+                        <td ng-if="row.order_type == 2">{{row.liquidoSell}}</td>
+                        <td ng-if="row.order_type == 1">{{row.liquidoBuy}}</td>
                       </tr>
                   </table>
                 </div>
@@ -636,18 +636,23 @@
                 <div class="text-align-center">
                   <img src="imgs/SimpleTraderLogoSemBorda.png" width="186px" height="186px">
                 </div>
+                <div class="white-text fs2-1rem carregado-shadow text-align-center">
+                  SimpleTrader
+                </div>
+                <p class="text-align-center text-cinza">
+                  Versão : {{versaoST}}<br>
+                  Autor : Davi Bispo
+                </p>
               </div>
               <div class="col s6">
-                <div class="card-content white-text text-align-center">
-                  <span class="card-title activator text-darken-4 text-branco brand-logo fs22">SimpleTrader</span>
-                  <ul>
-                    <li class="text-branco">Autor: Davi Bispo</li>
-                    <li class="text-branco">API de dados: MercadoBitCoin</li>
-                    <li class="text-branco">Versão: {{versaoST}}</li>
-                    <li class="text-branco">Electron v1.6.2</li>
-                    <li class="text-branco">AngularJS v1.6.4</li>
-                    <li class="text-branco">AngularSqlite v0.1.4</li>
-                  </ul>
+                <div class="row">
+                  <div class="col">
+
+                    <p class="text-align-center text-cinza">
+                      SimpleTrader e todos os direitos reservados pela marca, são de patrimônio de seus criadores
+                      e ao adquirir este produto você corcorda automaticamente com esses termos.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

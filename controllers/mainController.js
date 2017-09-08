@@ -60,6 +60,9 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
     $scope.orderBookLTCBids = [];
     $scope.orderBookBTCBids = [];
     $scope.orderBookBCHBids = [];
+    $scope.listaOrdemLTC = [];
+    $scope.listaOrdemBTC = [];
+    $scope.listaOrdemBCH = [];
     $scope.slides = ["1","2","3"];
     $scope.carouselIndex = 0;
 
@@ -262,7 +265,19 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
                                     date.getDate()+", "+
                                     date.getHours()+":"+
                                     date.getMinutes();
-        $scope.listaOrdemLTC = response.data.response_data.orders;
+        for (var i = 0; i < response.data.response_data.orders.length; i++) {
+          $scope.listaOrdemLTC.push(
+            {
+              'order_type':$filter('number')((response.data.response_data.orders[i].order_type), 4),
+              'status':$filter('number')((response.data.response_data.orders[i].status), 4),
+              'quantity':$filter('number')((response.data.response_data.orders[i].quantity), 4),
+              'limit_price':$filter('number')((response.data.response_data.orders[i].limit_price), 4),
+              'fee':$filter('number')((response.data.response_data.orders[i].fee), 4),
+              'liquidoSell':$filter('number')((response.data.response_data.orders[i].executed_quantity * response.data.response_data.orders[i].limit_price - response.data.response_data.orders[i].fee), 4),
+              'liquidoBuy':$filter('number')((response.data.response_data.orders[i].executed_quantity - response.data.response_data.orders[i].fee), 4),
+              'executed_quantity':$filter('number')((response.data.response_data.orders[i].executed_quantity), 4)
+            });
+        }
       })
     }
 
@@ -290,7 +305,19 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
                                     date.getDate()+", "+
                                     date.getHours()+":"+
                                     date.getMinutes();
-        $scope.listaOrdemBTC = response.data.response_data.orders;
+        for (var i = 0; i < response.data.response_data.orders.length; i++) {
+          $scope.listaOrdemBTC.push(
+            {
+              'order_type':$filter('number')((response.data.response_data.orders[i].order_type), 4),
+              'status':$filter('number')((response.data.response_data.orders[i].status), 4),
+              'quantity':$filter('number')((response.data.response_data.orders[i].quantity), 4),
+              'limit_price':$filter('number')((response.data.response_data.orders[i].limit_price), 4),
+              'fee':$filter('number')((response.data.response_data.orders[i].fee), 4),
+              'liquidoSell':$filter('number')((response.data.response_data.orders[i].executed_quantity * response.data.response_data.orders[i].limit_price - response.data.response_data.orders[i].fee), 4),
+              'liquidoBuy':$filter('number')((response.data.response_data.orders[i].executed_quantity - response.data.response_data.orders[i].fee), 4),
+              'executed_quantity':$filter('number')((response.data.response_data.orders[i].executed_quantity), 4)
+            });
+        }
       })
     }
 
@@ -318,7 +345,19 @@ app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http
                                     date.getDate()+", "+
                                     date.getHours()+":"+
                                     date.getMinutes();
-        $scope.listaOrdemBCH = response.data.response_data.orders;
+        for (var i = 0; i < response.data.response_data.orders.length; i++) {
+          $scope.listaOrdemBCH.push(
+            {
+              'order_type':$filter('number')((response.data.response_data.orders[i].order_type), 4),
+              'status':$filter('number')((response.data.response_data.orders[i].status), 4),
+              'quantity':$filter('number')((response.data.response_data.orders[i].quantity), 4),
+              'limit_price':$filter('number')((response.data.response_data.orders[i].limit_price), 4),
+              'fee':$filter('number')((response.data.response_data.orders[i].fee), 4),
+              'liquidoSell':$filter('number')((response.data.response_data.orders[i].executed_quantity * response.data.response_data.orders[i].limit_price - response.data.response_data.orders[i].fee), 4),
+              'liquidoBuy':$filter('number')((response.data.response_data.orders[i].executed_quantity - response.data.response_data.orders[i].fee), 4),
+              'executed_quantity':$filter('number')((response.data.response_data.orders[i].executed_quantity), 4)
+            });
+        }
       })
     }
 
