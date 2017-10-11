@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SimpleTrader</title>
+    <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.css"/>
+    <link rel="stylesheet" href="node_modules/angular-carousel/dist/angular-carousel.css"/>
+    <link rel="stylesheet" href="styles/main.css"/>
+    <link rel="stylesheet" href="styles/icons.css"/>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-route/angular-route.js"></script>
+    <script src="node_modules/angular-sqlite/angular-sqlite.js"></script>
+    <script src="node_modules/angular-carousel/dist/angular-carousel.js"></script>
+    <script src="node_modules/angular-touch/angular-touch.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/chart.js/dist/chart.js"></script>
+    <script src="node_modules/angular-chart.js/dist/angular-chart.js"></script>
+    <script src="node_modules/materialize-css/dist/js/materialize.js"></script>
+    <script src="firebase.js"></script>
+    <script src="angularfire.js"></script>
+    <script src="angular-hmac-sha512.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/mainController.js"></script>
+    <script>if (window.module) module = window.module;</script>
+  </head>
+  <body class="html-index" ng-app="index">
+    <ng-view></ng-view>
+  </body>
+
+  <script>
+    require('./renderer.js')
+  </script>
+</html>

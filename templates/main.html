@@ -1,12 +1,12 @@
 <div class="" ng-controller="mainController">
   <div class="div-loading" ng-if="loading">
     <div class="div-loading-content">
-      <div class="div-logo unselectable">
+      <div class="div-logo unselectable" ng-if="!menuBarOn">
         <img src="imgs/SimpleTraderLogoSemBorda.png" width="186px" height="186px" style="margin-top: 30vh;" alt="">
       </div>
       <div class="div-logo-2 unselectable">
-        <div class="preloader-wrapper bigSimple active" style="margin-top: 29.5vh;">
-          <div class="spinner-layer spinner-white">
+        <div class="preloader-wrapper bigSimple active" style="margin-top: 29.5vh;" ng-if="!menuBarOn">
+          <div class="spinner-layer spinner-white" ng-if="!menuBarOn">
             <div class="circle-clipper left">
               <div class="circle"></div>
             </div><div class="gap-patch">
@@ -16,6 +16,9 @@
             </div>
           </div>
         </div>
+        <div style="margin-top: 29.5vh;" ng-if="menuBarOn">
+          <a class="btn-floating waves-effect waves-light btn-large info-fButton" href="#"><i class="material-icons icon-large">refresh</i></a>
+        </div>
         <div class="white-text fs2-1rem carregado-shadow unselectable">
           LOADING...
         </div>
@@ -23,14 +26,80 @@
     </div>
   </div>
 
-  <nav>
+  <nav ng-if="!menuBarOn">
     <div class="nav-wrapper nav-main">
       <a href="#" class="brand-logo center">SimpleTrader</a>
       <ul id="nav-mobile" class="left">
       </ul>
     </div>
   </nav>
-  <div class="row">
+
+
+
+
+
+
+
+
+
+  <div class="row" ng-if="menuBarOn">
+    <div class="col s12 m6">
+      <div class="card card-main-info darken-1">
+        <div class="card-content white-text" ng-class='mainViewCard'>
+          <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-controls-allow-loop class="image carousel-ang white-text margin-zero">
+            <li class="white-text unselectable">
+              <div class="card-com-margem">
+                <span class="card-title text-cinza margin-zero">LiteCoin</span>
+                <p class="text-cinza text-padrao fs16">{{dataAtualizacaoLTC}}</p>
+                <span class="card-title margin-zero">{{mediaParaCompra}}</span>
+                <div class="margin-row-under-graf">
+                  <span class="text-padrao fs24" ng-style="corDiferenca">{{diferenca}}</span>
+                  <span class="text-padrao fs24" ng-style="corDiferenca">{{porcentagem}}</span>
+                </div>
+              </div>
+            </li>
+            <li class="white-text unselectable">
+              <div class="card-com-margem">
+                <span class="card-title text-cinza margin-zero">BitCoin</span>
+                <p class="text-cinza text-padrao fs16">{{dataAtualizacaoBTC}}</p>
+                <span class="card-title margin-zero">{{mediaParaCompraBTC}}</span>
+                <div class="margin-row-under-graf">
+                  <span class="text-padrao fs24" ng-style="corDiferencaBTC">{{diferencaBTC}}</span>
+                  <span class="text-padrao fs24" ng-style="corDiferencaBTC">{{porcentagemBTC}}</span>
+                </div>
+              </div>
+            </li>
+            <li class="white-text unselectable">
+              <div class="card-com-margem">
+                <span class="card-title text-cinza margin-zero">BitCoinCash</span>
+                <p class="text-cinza text-padrao fs16">{{dataAtualizacaoBCH}}</p>
+                <span class="card-title margin-zero">{{mediaParaCompraBCH}}</span>
+                <div class="margin-row-under-graf">
+                  <span class="text-padrao fs24" ng-style="corDiferencaBCH">{{diferencaBCH}}</span>
+                  <span class="text-padrao fs24" ng-style="corDiferencaBCH">{{porcentagemBCH}}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div rn-carousel-indicators ng-if="slides" slides="slides" rn-carousel-index="carouselIndex" class="text-align-center fs24 indicators-ang unselectable"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="row" ng-if="!menuBarOn">
     <div class="col s12 m6">
       <div class="card card-main-info darken-1">
         <div class="card-content white-text">
@@ -267,7 +336,7 @@
         </div>
       </div>
     </div>
-  <div class="fixed-action-btn horizontal">
+  <div class="fixed-action-btn horizontal" ng-if="!menuBarOn">
     <a data-target="modal2" class="btn-floating waves-effect waves-light btn-large info-fButton"><i class="material-icons icon-large">account_circle</i></a>
   </div>
   <!-- Modal Structure -->

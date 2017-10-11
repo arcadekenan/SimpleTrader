@@ -1,5 +1,12 @@
 app.controller("mainController", function ($scope, $rootScope, $crypthmac, $http, $SQLite, $timeout, $filter, $route, $firebaseArray) {
 
+  if (window.innerWidth < 350) {
+    $scope.menuBarOn = true;
+    $scope.mainViewCard = "card-menuBar";
+  }else{
+    $scope.menuBarOn = false;
+  }
+
   var onlineRunning = navigator.onLine;
   if (!onlineRunning) {
     $('#modalOnline').modal('open');

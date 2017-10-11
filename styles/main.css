@@ -2,6 +2,10 @@
   background-color: #252833;
 }
 
+.card-menuBar{
+  padding: 8px 10px !important;
+}
+
 .card-main-info{
   background-color: #1F212C;
   margin-bottom: 0px;
